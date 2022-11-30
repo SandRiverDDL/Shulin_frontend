@@ -1,0 +1,14 @@
+/* CDN 服务仅供平台体验和调试使用，平台不承诺服务的稳定性，企业客户需下载字体包自行发布使用并做好备份。 */
+@font-face {
+    font-family: "MAMA";
+    font-weight: normal;
+    src: url('../fonts/mama/Alimama_ShuHeiTi_Bold.ttf');
+    font-display: normal;
+}
+
+@font-face {
+    font-family: 'shouxie';
+    src: url('../fonts/h1.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
