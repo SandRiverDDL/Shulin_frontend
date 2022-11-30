@@ -25,7 +25,7 @@
                 </el-col>
                 <el-col :span="8">
                     <div class="data" @click="likeIt">
-                        <img :src="like" />
+                        <img :src="like" @mouseover="changeTime" />
                         <span>点赞量：3</span>
                     </div>
                 </el-col>
@@ -44,7 +44,7 @@
             <el-row>
                 <el-col :span="4"><b style="float: left;">关键词</b></el-col>
                 <el-col :span="20">
-                    <div class="keyword">知网；概念；概念特征；语汇语用学；计算语义学</div>
+                    <div class="keyword">知网,概念,概念特征,语汇语用学,计算语义学</div>
                 </el-col>
             </el-row>
             <el-row>
@@ -78,13 +78,24 @@ export default {
             activeName: 'first',
             like: unlike,
             liked: liked,
-            unliked: unlike
+            unliked: unlike,
+            time: 0
         };
+    },
+    computed: {
+        styleVar() {
+            return {
+                '--time': this.time + 's'
+            }
+        }
     },
     methods: {
         likeIt: function () {
             if (this.like == this.unliked) {
             }
+        },
+        changeTime() {
+            this.time = 1;
         }
     }
 };
@@ -128,12 +139,28 @@ export default {
 
 .el-row {
     margin-bottom: 20px;
+}
 
+@keyframes back_scale_1 {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(0);
+    }
+
+    45% {
+        opacity: 1;
+        -webkit-transform: scale(1.2);
+    }
+
+    90% {
+        -webkit-transform: scale(1);
+    }
 }
 
 .el-row img {
     height: 30px;
     vertical-align: middle;
+    animation: back_scale_1 var(--time);
 }
 
 .el-row span {
