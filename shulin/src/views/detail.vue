@@ -18,14 +18,14 @@
 
                 </el-col>
                 <el-col :span="8">
-                    <div class="data">
-                        <img src="../assets/icon/collected.png" />
+                    <div class="data" @click="collectIt">
+                        <img :src="collectIcon" :style="styleVar" @mouseover="changeTime" />
                         <span>收藏量：5</span>
                     </div>
                 </el-col>
                 <el-col :span="8">
                     <div class="data" @click="likeIt">
-                        <img :src="like" @mouseover="changeTime" />
+                        <img :src="like" :style="styleVar" @mouseover="changeTime" />
                         <span>点赞量：3</span>
                     </div>
                 </el-col>
@@ -59,10 +59,41 @@
                     <div class="keyword">中国市场. 2022,(27)</div>
                 </el-col>
             </el-row>
-            <div style="height: 70px;"></div>
+            <el-row :gutter="20">
+                <el-col :span="2">
+                    <div style="color: #fff;">1</div>
+                </el-col>
+                <el-col :span="4">
+                    <div class="action" @mouseover="changeDownloadToWhite" @mouseleave="changeDownloadToBlack"><img
+                            :src="download" /><b>下载资源</b>
+                    </div>
+                </el-col>
+                <el-col :span="4">
+
+                    <div class="action"><img src="../assets/icon/book.svg" /><b>在线阅读</b></div>
+
+                </el-col>
+
+                <el-col :span="4">
+                    <div class="action">
+                        <img src="../assets/icon/资料.svg" @mouseover="" @mouseleave="" /><b>引用</b>
+                    </div>
+                </el-col>
+                <el-col :span="4">
+                    <div class="action">
+                        <img src="../assets/icon/举报.svg" /><b>报错</b>
+                    </div>
+                </el-col>
+                <el-col :span="4">
+                    <div class="action">
+                        <img src="../assets/icon/share.svg" /><b>分享</b>
+                    </div>
+                </el-col>
+            </el-row>
             <el-tabs v-model="activeName" @tab-click="handleClick">
-                <el-tab-pane label="评论" name="first">评论</el-tab-pane>
                 <el-tab-pane label="相关文献" name="second">相关文献</el-tab-pane>
+                <el-tab-pane label="评论" name="first">评论</el-tab-pane>
+
             </el-tabs>
         </div>
 
@@ -71,15 +102,25 @@
 </template>
 <script>
 import unlike from '@/assets/icon/like.png'
-import liked from '@/assets/icon/like.svg'
+import like from '@/assets/icon/liked.png'
+import uncollect from '@/assets/icon/collect.png'
+import collect from '@/assets/icon/collected.png'
+import download_black from '@/assets/icon/download.svg'
+import download_white from '@/assets/icon/下载.svg'
 export default {
     data() {
         return {
-            activeName: 'first',
+            activeName: 'second',
             like: unlike,
-            liked: liked,
+            liked: like,
             unliked: unlike,
-            time: 0
+            collectIcon: uncollect,
+            collected: collect,
+            uncollected: uncollect,
+            time: 0,
+            download: download_black,
+            downloadblack: download_black,
+            downloadwhite: download_white
         };
     },
     computed: {
@@ -92,10 +133,28 @@ export default {
     methods: {
         likeIt: function () {
             if (this.like == this.unliked) {
+                this.like = this.liked
+            }
+            else {
+                this.like = this.unliked
+            }
+        },
+        collectIt: function () {
+            if (this.collectIcon == this.collected) {
+                this.collectIcon = this.uncollected
+            }
+            else {
+                this.collectIcon = this.collected
             }
         },
         changeTime() {
             this.time = 1;
+        },
+        changeDownloadToWhite() {
+            this.download = this.downloadwhite
+        },
+        changeDownloadToBlack() {
+            this.download = this.downloadblack
         }
     }
 };
@@ -108,6 +167,7 @@ export default {
 .title h1 {
     font-family: "mama";
     font-size: 45px;
+    color: #000000;
 }
 
 .data {
@@ -141,6 +201,22 @@ export default {
     margin-bottom: 20px;
 }
 
+
+.action {
+    border-style: solid;
+    border-width: 3px;
+    border-color: #000000;
+    border-radius: 6px;
+    min-height: 36px;
+    color: #000000;
+    cursor: pointer;
+}
+
+.row-bg {
+    padding: 10px 0;
+    background-color: #f9fafc;
+}
+
 @keyframes back_scale_1 {
     0% {
         opacity: 0;
@@ -161,11 +237,31 @@ export default {
     height: 30px;
     vertical-align: middle;
     animation: back_scale_1 var(--time);
+    margin-top: 2px;
+}
+
+.el-row img:hover {
+    animation-duration: 1s;
+}
+
+.el-row img:active {
+    animation: none;
 }
 
 .el-row span {
     vertical-align: middle;
     margin-left: 5px;
+}
+
+.action b {
+    vertical-align: middle;
+    margin-left: 2px;
+}
+
+.action:hover {
+    background-color: #003dff;
+    color: #f9fafc;
+    border-color: #4281ff;
 }
 
 .main {
