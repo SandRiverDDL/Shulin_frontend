@@ -63,32 +63,13 @@
                 <el-col :span="2">
                     <div style="color: #fff;">1</div>
                 </el-col>
-                <el-col :span="4">
-                    <div class="action" @mouseover="changeDownloadToWhite" @mouseleave="changeDownloadToBlack"><img
-                            :src="download" /><b>下载资源</b>
+
+                <el-col :span="4" v-for="(index, item) in icons">
+                    <div class="action" @mouseover="changeToWhite(index)" @mouseleave="changeToBlack(index)"><img
+                            :src=item.img /><b>{{ item.name }}</b>
                     </div>
-                </el-col>
-                <el-col :span="4">
-
-                    <div class="action"><img src="../assets/icon/book.svg" /><b>在线阅读</b></div>
-
                 </el-col>
 
-                <el-col :span="4">
-                    <div class="action">
-                        <img src="../assets/icon/资料.svg" @mouseover="" @mouseleave="" /><b>引用</b>
-                    </div>
-                </el-col>
-                <el-col :span="4">
-                    <div class="action">
-                        <img src="../assets/icon/举报.svg" /><b>报错</b>
-                    </div>
-                </el-col>
-                <el-col :span="4">
-                    <div class="action">
-                        <img src="../assets/icon/share.svg" /><b>分享</b>
-                    </div>
-                </el-col>
             </el-row>
             <el-tabs v-model="activeName" @tab-click="handleClick">
                 <el-tab-pane label="相关文献" name="second">相关文献</el-tab-pane>
@@ -107,6 +88,14 @@ import uncollect from '@/assets/icon/collect.png'
 import collect from '@/assets/icon/collected.png'
 import download_black from '@/assets/icon/download.svg'
 import download_white from '@/assets/icon/下载.svg'
+import read_black from '@/assets/icon/book.svg'
+import read_white from '@/assets/icon/book_white.svg'
+import import_black from '@/assets/icon/资料.svg'
+import import_white from '@/assets/icon/import_white.svg'
+import report_black from '@/assets/icon/report.svg'
+import report_white from '@/assets/icon/report_white.svg'
+import share_black from '@/assets/icon/share.svg'
+import share_white from '@/assets/icon/share_white.svg'
 export default {
     data() {
         return {
@@ -118,9 +107,38 @@ export default {
             collected: collect,
             uncollected: uncollect,
             time: 0,
-            download: download_black,
-            downloadblack: download_black,
-            downloadwhite: download_white
+            icons: [
+                {
+                    img: download_black,
+                    img1: download_black,
+                    img2: download_white,
+                    name: "下载资源"
+                },
+                {
+                    img: read_black,
+                    img1: read_black,
+                    img2: read_white,
+                    name: "在线阅读"
+                },
+                {
+                    img: import_black,
+                    img1: import_black,
+                    img2: import_white,
+                    name: "引用"
+                },
+                {
+                    img: report_black,
+                    img1: report_black,
+                    img2: report_white,
+                    name: "报错"
+                },
+                {
+                    img: share_black,
+                    img1: share_black,
+                    img2: share_white,
+                    name: "分享"
+                }
+            ]
         };
     },
     computed: {
@@ -150,11 +168,11 @@ export default {
         changeTime() {
             this.time = 1;
         },
-        changeDownloadToWhite() {
-            this.download = this.downloadwhite
+        changeToWhite(index) {
+            this.icons[index].img = this.icons[index].img2
         },
-        changeDownloadToBlack() {
-            this.download = this.downloadblack
+        changeToBlack() {
+            this.icons[index].img = this.icons[index].img1
         }
     }
 };

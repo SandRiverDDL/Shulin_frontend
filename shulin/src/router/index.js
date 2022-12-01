@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import HomeView from '../views/home.vue'
 
 Vue.use(VueRouter)
 
@@ -10,6 +10,15 @@ const routes = [
     name: 'home',
     component: HomeView
   },
+  // {
+  //   path: "/login",
+  //   name: "login",
+  //   meta: {
+  //     title: '登录',
+  //     requiresAuth: false, // false表示不需要登录
+  //   },
+  //   component: LoginView,
+  // },
   {
     path: '/about',
     name: 'about',
@@ -28,6 +37,15 @@ const routes = [
     component: function () {
       return import(/* webpackChunkName: "about" */ '../views/detail.vue')
     }
+  },
+  {
+    path: '/user',
+    name: 'user',
+    component: () => import(/* webpackChunkName: "about" */ '../views/userSpace.vue')
+  }, {
+    path: '/request',
+    name: 'request',
+    component: () => import(/* webpackChunkName: "about" */ '../views/request.vue')
   }
 ]
 
