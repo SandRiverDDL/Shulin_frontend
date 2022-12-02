@@ -1,69 +1,110 @@
 <template>
   <div>
-    <el-row>
-      <el-col :span=6>
-        <div style="border: 1px solid transparent"></div>
-      </el-col>
-      <el-col :span="9">
-        <div class="search" :style="colorVar" @mouseout="changeColor" @mouseleave="changeColor2">
-          <el-row>
-            <el-col :span=20>
-              <div class="input_part">
-                <input type="text" class="input" v-model="searchInput" name="searchInput" />
-              </div>
-            </el-col>
-            <el-col :span=1>
-              <div class="clear_part">
-                <img src="@/assets/icon/clear.svg" class="clear_icon" v-if="(clearVisable === true)" @click="clear" />
-              </div>
-            </el-col>
-            <el-col :span=3>
-              <div class="icon_part">
-                <img src="@/assets/icon/search.svg" class="search_icon" />
-              </div>
-            </el-col>
-          </el-row>
-        </div>
-      </el-col>
+    <div class="search" id="searchBox" :style="colorVar" @mouseout="changeColor" @mouseleave="changeColor2">
 
-    </el-row>
+      <input type="text" class="input" v-model="searchInput" name="searchInput" />
+
+
+      <img src="@/assets/icon/clear.svg" class="clear_icon" @click="clear" id="clear" />
+
+
+      <img src="@/assets/icon/search.svg" class="search_icon" />
+
+      <div class="resUl" :style="colorVar">
+        <div class="resUl_2">
+          <ul v-show="!empty">
+            <li v-for="(item, index) in results">
+              <img src="../assets/icon/search.svg" class="search_in_li" />
+              <span>{{ item.name }}</span>
+              <div style="clear: both;"></div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
-      color: 'rgb(192, 192, 192)',
-      clearVisable: false,
-      searchInput: ""
+      color: 'rgb(222, 222, 222)',
+      searchInput: "",
+      results: [
+        {
+          name: "nihao"
+        },
+        {
+          name: "hello"
+        }
+      ],
+      empty: true,
+      radius: 8,
+      color1: 'rgb(180, 180, 180)',
+      color2: 'rgb(222, 222, 222)',
+      deepColor: 'rgb(180, 180, 180)',
     }
   },
   computed: {
     colorVar() {
       return {
-        '--color': this.color
+        '--color': this.color,
+        '--radius': this.radius + 'px',
       }
     }
   },
   methods: {
     changeColor() {
-      this.color = 'rgb(100, 100, 100)'
+      this.color = this.color1
     },
     changeColor2() {
-      this.color = 'rgb(192, 192, 192)'
+      this.color = this.color2
     },
     clear() {
       this.searchInput = ""
+    },
+    search() {
+
     }
   },
+  mounted() {
+    // 模拟外部点击
+    document.addEventListener('click', (e) => {
+      if (e.target.className !== 'search') {
+        this.empty = true
+        this.radius = 8
+      }
+    })
+  },
+  // 在组件生命周期结束时销毁
+  beforeDestroy() {
+    window.removeEventListener('click', () => { }, true)
+  },
+
   watch: {
     "searchInput": {
       handler: function () {
+        var clear = document.getElementById('clear');
         if (this.searchInput != "") {
-          this.clearVisable = true
+          clear.style.cursor = "pointer"
+          clear.style.opacity = 1
+          if (this.results.length == 0) {
+            this.empty = true
+            this.radius = 8
+            this.color1 = this.deepColor
+          }
+          else {
+            this.empty = false
+            this.radius = 0
+            this.color1 = this.color2
+          }
         }
         else {
-          this.clearVisable = false
+          this.empty = true
+          clear.style.cursor = "auto"
+          clear.style.opacity = 0
+          this.radius = 8
+          this.color1 = this.deepColor
         }
       }
     }
@@ -72,58 +113,101 @@ export default {
 </script>
 <style scoped>
 .search {
-  border-radius: 20px;
+  border-radius: 8px;
+  border-bottom-left-radius: var(--radius);
+  border-bottom-right-radius: var(--radius);
+
   border-width: 1px;
   border-style: solid;
   border-color: rgb(214, 214, 214);
-  box-shadow: 0px 3px 6px var(--color);
+  box-shadow: 1px -1px 5px var(--color);
   transition: 0.3s;
-}
-
-.input_part {
-  padding: 15px;
-  border-radius: 20px;
-  border-color: black;
-  border-style: solid;
-  border-width: 0px;
-  border-right-width: 0px;
-  border-top-right-radius: 0px;
-  border-bottom-right-radius: 0px;
-}
-
-.icon_part {
-  border-radius: 20px;
-  padding-top: 11px;
-  padding-bottom: 9px;
-  border-color: black;
-  border-style: solid;
-  border-width: 0px;
-}
-
-.clear_part {
-  border-radius: 20px;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  border-color: black;
-  border-style: solid;
-  border-width: 0px;
+  display: inline-block;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .clear_icon {
   height: 18px;
-  cursor: pointer;
+  vertical-align: middle;
+  display: inline-block;
+  margin-left: 10px;
+  opacity: 0;
 }
 
 .search_icon {
   height: 28px;
   cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 15px;
+  margin-right: 20px;
 }
 
 .input {
   height: 20px;
   border: transparent;
   outline: none;
-  width: 90%;
+  width: 535px;
   font-size: 17px;
+  display: inline-block;
+  vertical-align: middle;
+  padding: 10px;
+  margin-left: 10px;
+}
+
+.resUl {
+  display: block;
+  width: auto;
+  position: relative;
+  z-index: 6;
+}
+
+.resUl_2 {
+  margin-top: 10px;
+  display: block;
+  position: absolute;
+  width: 100%;
+}
+
+ul {
+  display: block;
+  list-style-type: none;
+  margin-left: -1px;
+  margin-right: -1px;
+  margin-top: 0px;
+  border-color: rgb(214, 214, 214);
+  border-style: solid;
+  border-width: 1px;
+  padding-left: 0;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  box-shadow: 0px 3px 5px var(--color);
+}
+
+li {
+  margin-left: -1px;
+  padding: 10px;
+  cursor: pointer;
+  background-color: white;
+}
+
+li span {
+  float: left;
+  margin-left: 15px;
+}
+
+li:hover {
+  background-color: rgb(206, 206, 206);
+}
+
+li:last-child {
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.search_in_li {
+  float: left;
+  height: 20px;
 }
 </style>

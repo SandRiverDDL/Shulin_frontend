@@ -90,10 +90,6 @@
                 </el-col>
 
             </el-row>
-            <el-tabs v-model="activeName" @tab-click="handleClick">
-                <el-tab-pane label="相关文献" name="second">相关文献</el-tab-pane>
-                <el-tab-pane label="评论" name="first">评论</el-tab-pane>
-            </el-tabs>
         </div>
 
     </div>
@@ -368,8 +364,8 @@ export default {
 }
 
 .main {
-    width: 80%;
-    left: 10%;
+    width: 60%;
+    left: 20%;
     position: absolute;
     /*box-shadow: 0px 0px 20px rgb(110, 108, 108);
     border-radius: 15px;*/
