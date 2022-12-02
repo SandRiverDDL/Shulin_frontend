@@ -1,6 +1,7 @@
 <template>
     <div class>
         <div class="bg"></div>
+
         <div class="main">
             <div class="title">
                 <h1>国内外垃圾分类模式综述</h1>
@@ -9,7 +10,6 @@
                 姚蔚，金鑫，吴蒨蒨
             </div>
             <el-divider></el-divider>
-            <div style="clear: both;"></div>
             <el-row>
                 <el-col :span="8">
                     <div class="data"><img src="../assets/icon/read.svg" />
@@ -59,13 +59,32 @@
                     <div class="keyword">中国市场. 2022,(27)</div>
                 </el-col>
             </el-row>
+            <el-dialog title="引用" :visible.sync="citeDialogVisible" width="65%" center>
+                <el-row v-for="(item, index) in standards">
+                    <el-col :span="3">
+                        <div style="padding: 9px;"><b class="standard">{{ item.name }}</b></div>
+                    </el-col>
+                    <el-col :span="18">
+                        <div class="reference">{{ item.content }}</div>
+                    </el-col>
+                    <el-col :span="3">
+                        <div class="copyBox"><img src="../assets/icon/copy.svg" class="copy" @click="doCopy(index)" />
+                        </div>
+                    </el-col>
+                </el-row>
+            </el-dialog>
             <el-row :gutter="20">
                 <el-col :span="2">
                     <div style="color: #fff;">1</div>
                 </el-col>
+                <el-col :span="4" v-for="(item, index) in icons">
 
-                <el-col :span="4" v-for="(index, item) in icons">
-                    <div class="action" @mouseover="changeToWhite(index)" @mouseleave="changeToBlack(index)"><img
+                    <div class="action" @mouseover="changeToWhite(index)" @mouseleave="changeToBlack(index)"
+                        v-if="(index === 2)" @click="citeDialogVisible = true">
+                        <img :src=item.img />
+                        <b>{{ item.name }}</b>
+                    </div>
+                    <div class="action" @mouseover="changeToWhite(index)" @mouseleave="changeToBlack(index)" v-else><img
                             :src=item.img /><b>{{ item.name }}</b>
                     </div>
                 </el-col>
@@ -74,7 +93,6 @@
             <el-tabs v-model="activeName" @tab-click="handleClick">
                 <el-tab-pane label="相关文献" name="second">相关文献</el-tab-pane>
                 <el-tab-pane label="评论" name="first">评论</el-tab-pane>
-
             </el-tabs>
         </div>
 
@@ -107,6 +125,7 @@ export default {
             collected: collect,
             uncollected: uncollect,
             time: 0,
+            citeDialogVisible: false,
             icons: [
                 {
                     img: download_black,
@@ -137,6 +156,20 @@ export default {
                     img1: share_black,
                     img2: share_white,
                     name: "分享"
+                }
+            ],
+            standards: [
+                {
+                    name: "GB/T 7714",
+                    content: "[1]郭田勇, 孙光宇. 新冠疫情对我国经济的影响与应对之策[J]. 银行家, 2020(4):3."
+                },
+                {
+                    name: "MLA",
+                    content: '[1]郭田勇, and 孙光宇. "新冠疫情对我国经济的影响与应对之策." 银行家 4(2020):3.'
+                },
+                {
+                    name: "APA",
+                    content: '[1]郭田勇, & 孙光宇. (2020). 新冠疫情对我国经济的影响与应对之策. 银行家(4), 3.'
                 }
             ]
         };
@@ -171,13 +204,36 @@ export default {
         changeToWhite(index) {
             this.icons[index].img = this.icons[index].img2
         },
-        changeToBlack() {
+        changeToBlack(index) {
             this.icons[index].img = this.icons[index].img1
+        },
+        doCopy: function (index) {
+            var success;
+            this.$copyText(this.standards[index].content).then(function (e) {
+                success = true;
+                console.log(e)
+            }, function (e) {
+                success = false
+                console.log(e)
+            })
+            if (success = true) {
+                this.$notify({
+                    title: '复制成功',
+                    message: '',
+                    type: 'success'
+                });
+            }
+            else {
+                this.$notify.error({
+                    title: '错误',
+                    message: '这是一条错误的提示消息'
+                });
+            }
         }
     }
 };
 </script>
-<style>
+<style scoped>
 .title {
     margin-top: 10px;
 }
@@ -192,7 +248,6 @@ export default {
     cursor: pointer;
 }
 
-.author {}
 
 .abstract {
     float: left;
@@ -221,6 +276,8 @@ export default {
 
 
 .action {
+    margin-top: 20px;
+    margin-bottom: 10px;
     border-style: solid;
     border-width: 3px;
     border-color: #000000;
@@ -228,6 +285,34 @@ export default {
     min-height: 36px;
     color: #000000;
     cursor: pointer;
+    transition: .3s;
+    transform: scale(1);
+}
+
+.action::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: 0 0 0 10px royalblue;
+    opacity: 0;
+    transition: .3s;
+}
+
+.action:hover {
+    color: royalblue;
+    border-color: currentColor;
+    filter: brightness(1.1);
+}
+
+.action:active {
+    filter: brightness(.9);
+}
+
+.action:active::after {
+    transition: 0s;
+    box-shadow: none;
+    opacity: 0.6;
 }
 
 .row-bg {
@@ -288,5 +373,46 @@ export default {
     position: absolute;
     /*box-shadow: 0px 0px 20px rgb(110, 108, 108);
     border-radius: 15px;*/
+}
+
+
+/deep/.el-dialog.el-dialog--center {
+    border-radius: 8px;
+    position: absolute;
+    /* 设置为绝对定位，使下方的top和left生效  */
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/deep/.el-dialog__title {
+    font-family: "mama";
+    font-size: 25px;
+}
+
+.standard {
+    font-size: 17px;
+}
+
+.reference {
+    font-size: 17px;
+    background-color: rgb(250, 250, 250);
+    border-radius: 2px;
+    border-color: rgb(240, 240, 240);
+    border-width: 1px;
+    border-style: solid;
+    padding: 8px;
+}
+
+.copy {
+    height: 20px !important;
+    cursor: pointer;
+}
+
+.copyBox {
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 8px;
+    padding-top: 8px;
 }
 </style>

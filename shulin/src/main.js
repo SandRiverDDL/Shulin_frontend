@@ -10,7 +10,8 @@ Vue.use(ElementUI);
 import axios from "axios"
 import VueAxios from "vue-axios";
 import VueSession from 'vue-session'
-
+import VueClipboard from 'vue-clipboard2'
+Vue.use(VueClipboard)
 Vue.use(VueAxios, axios)
 
 Vue.use(VueSession)
