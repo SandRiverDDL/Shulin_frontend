@@ -13,7 +13,7 @@
               </div>
             </el-col>
             <el-col :span=1>
-              <div class="icon_part">
+              <div class="clear_part">
                 <img src="@/assets/icon/clear.svg" class="clear_icon" v-if="(clearVisable === true)" @click="clear" />
               </div>
             </el-col>
@@ -100,8 +100,16 @@ export default {
   border-width: 0px;
 }
 
+.clear_part {
+  border-radius: 20px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-color: black;
+  border-style: solid;
+  border-width: 0px;
+}
+
 .clear_icon {
-  margin-top: 7px;
   height: 18px;
   cursor: pointer;
 }
