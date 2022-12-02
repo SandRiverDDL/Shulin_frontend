@@ -8,12 +8,9 @@ import 'element-ui/lib/theme-chalk/index.css'
 Vue.config.productionTip = false
 Vue.use(ElementUI);
 import axios from "axios"
-import VueAxios from "vue-axios";
-import VueSession from 'vue-session'
-
-Vue.use(VueAxios, axios)
-
-Vue.use(VueSession)
+import { createPinia, PiniaVuePlugin } from 'pinia'
+Vue.use(PiniaVuePlugin)
+const pinia = createPinia()
 
 Vue.config.productionTip = true
 Vue.prototype.$axios = axios;
