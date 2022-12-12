@@ -10,15 +10,16 @@ const routes = [
     name: 'home',
     component: HomeView
   },
-  // {
-  //   path: "/login",
-  //   name: "login",
-  //   meta: {
-  //     title: '登录',
-  //     requiresAuth: false, // false表示不需要登录
-  //   },
-  //   component: LoginView,
-  // },
+  {
+    path: "/login",
+    name: "login",
+    component: () => import(/* webpackChunkName: "about" */ '../views/login.vue')
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: () => import(/* webpackChunkName: "about" */ '../views/register.vue')
+  },
   {
     path: '/about',
     name: 'about',
@@ -51,8 +52,7 @@ const routes = [
     name: 'lab',
     component: () => import('@/views/lab/Lab.vue')
 
-  },
-  {
+  }, {
     path: '/door',
     name: 'door',
     component: () => import(/* webpackChunkName: "about" */'../views/scholardoor.vue')
