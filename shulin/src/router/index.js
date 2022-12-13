@@ -4,6 +4,7 @@ import HomeView from '../views/home.vue'
 import comments from '../views/detail/comments'
 import detail from '../views/detail/detail'
 import data from '../views/detail/data'
+import charge from '../views/charge'
 Vue.use(VueRouter)
 
 const routes = [
@@ -77,7 +78,7 @@ const routes = [
     path: '/empty',
     name: 'empty',
     component: () => import(/* webpackChunkName: "about" */'../views/empty.vue')
-  },{
+  }, {
     path: '/scholarSearch',
     name: 'scholarSearch',
     component: () => import(/* webpackChunkName: "about" */'../views/scholarSearch.vue')
@@ -86,6 +87,11 @@ const routes = [
     path: '/Audit',
     name: 'Audit',
     component: () => import(/* webpackChunkName: "about" */'../views/Audit.vue')
+  },
+  {
+    path: '/charge',
+    name: 'charge',
+    component: charge
   }
 ]
 

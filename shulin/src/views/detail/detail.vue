@@ -139,6 +139,7 @@ import { RouterView } from 'vue-router'
 export default {
     data() {
         return {
+            id: 1,
             activeName: "second",
             like: unlike,
             liked: like,
@@ -225,6 +226,7 @@ export default {
     },
     mounted() {
         window.addEventListener("scroll", this.showbtn, true);
+        this.getInfo()
     },
     methods: {
         likeIt: function () {
@@ -320,6 +322,21 @@ export default {
                     message: "这是一条错误的提示消息"
                 });
             }
+        },
+        getInfo() {
+            this.$axios({
+                method: "post",
+                url: "/get_paper_info",
+                data: {
+                    paper_id: "1000"
+                },
+            })
+                .then((res) => {
+                    alert(res.data.msg)
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         }
     },
     components: { RouterView }
