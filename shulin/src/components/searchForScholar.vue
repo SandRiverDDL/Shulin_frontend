@@ -8,7 +8,7 @@
             <el-divider direction="vertical"></el-divider>
             <input value="请输入姓名" onFocus="if(value==defaultValue){value='';this.style.color='#000'}"
                 onBlur="if(!value){value=defaultValue; this.style.color='#999'}" style="color:#999" class="input"
-                v-model="searchInput" name="searchInput" />
+                name="searchInput" />
             <img src="@/assets/icon/clear.svg" class="clear_icon" @click="clear" id="clear" />
             <img src="@/assets/icon/search.svg" class="search_icon" />
             <!--

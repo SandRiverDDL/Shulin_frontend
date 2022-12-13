@@ -5,10 +5,3 @@
     src: url('../fonts/mama/Alimama_ShuHeiTi_Bold.ttf');
     font-display: normal;
 }
-
-@font-face {
-    font-family: 'shouxie';
-    src: url('../fonts/h1.ttf');
-    font-weight: normal;
-    font-style: normal;
-}
