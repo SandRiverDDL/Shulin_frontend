@@ -46,9 +46,8 @@ export default {
       this.$store.replaceState(Object.assign({}, this.$store.state, JSON.parse(localStorage.getItem('storeState'))))
     }
     //在页面刷新前将vuex里的信息保存到localStorage里（只有当登录时）
-    window.addEventListener('beforeunload', () => {
-      if (this.$store.state.login)
-        localStorage.setItem('storeState', JSON.stringify(this.$store.state));
+    window.addEventListener('beforeunload',()=>{
+        localStorage.setItem('storeState',JSON.stringify(this.$store.state));
     })
     console.log('storeState', localStorage.getItem('storeState'));
   },

@@ -47,7 +47,7 @@ export default {
             avatar: cat,
             name: "丁真",
             orgs: "蚌埠学院",
-            position: "",
+            position: "5555",
             researchIntrest: "data mining",
             n_pubs: 1217,
             n_citation: 191,
