@@ -13,7 +13,7 @@ Vue.use(VueClipboard)
 
 Vue.config.productionTip = true
 Vue.prototype.$axios = axios;
-// axios.defaults.baseURL = "http://43.138.76.79";
+axios.defaults.baseURL = "http://114.116.219.180/test/";
 axios.defaults.withCredentials = true;
 new Vue({
   router,

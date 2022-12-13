@@ -1,20 +1,18 @@
 <template>
   <div class="home">
     <navi></navi>
-    <ZhSearch></ZhSearch>
+    <el-empty style="margin-left: 0"></el-empty>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import Navi from "@/components/navi";
-import ZhSearch from '@/components/search/ZhSearch';
-function output(e) { console.log(Object.entries(e)) }
+
 export default {
-  name: 'HomeView',
+  name: 'emptyView',
   components: {
     Navi,
-    ZhSearch
   }
 }
 </script>

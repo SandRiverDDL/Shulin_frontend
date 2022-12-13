@@ -178,8 +178,8 @@ export default {
   methods: {
     send_code(){
       let formData = new FormData();
-      this.$store.state.code=Math.ceil(Math.random()*9000+1000)
-      console.log("验证码是"+this.$store.state.code)
+      this.$store.state.code=Math.ceil(Math.random()*9000+1000).toString()
+      console.log("验证码是"+this.$store.state.code);
       formData.append("email", this.regForm.email);
       formData.append("rand_code",this.$store.state.code)
       this.$axios({
@@ -190,13 +190,11 @@ export default {
           .then((res) => {
             /* res 是 response 的缩写 */
             switch (res.data.errno) {
-              case 100000:
+              case 0:
                 this.$message.success("发送验证码成功！");
-                this.$store.state.code=res.data.str;
-                // console.log("验证码是:",res.data);
                 break;
-              case 100001:
-                this.$message.error("邮箱不正确！");
+              default:
+                this.$message.error("发送验证码失败！");
                 break;
             }
           })
@@ -206,6 +204,7 @@ export default {
     },
     register: function () {
       console.log("现在的验证码是：",this.$store.state.code);
+      console.log("填写的验证码是：",this.regForm.code);
       if (
           this.regForm.email === "" ||
           this.regForm.user_name === "" ||
@@ -225,15 +224,18 @@ export default {
         this.$message.error("密码长度太短！");
         return;
       }
+      if(this.regForm.pwd1!==this.regForm.pwd2){
+        this.$message.error("两次密码不一致！");
+        return;
+      }
       let formData = new FormData();
       formData.append("username", this.regForm.user_name);
       formData.append("email", this.regForm.email);
       formData.append("password", this.regForm.pwd1);
-      formData.append("password2", this.regForm.pwd2);
 
       this.$axios({
         method: "post" /* 指明请求方式，可以是 get 或 post */,
-        url: "/api/app1/register" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
+        url: "/register" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
         data: formData,
       })
           .then((res) => {
@@ -249,7 +251,11 @@ export default {
           .catch((err) => {
             console.log(err); /* 若出现异常则在终端输出相关信息 */
           });
+      this.$router.push('/login');
     },
+    // show_code:function (){
+    //   console.log("vuex中的验证码",this.$store.state.code);
+    // }
   },
 };
 </script>

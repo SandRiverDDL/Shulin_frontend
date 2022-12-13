@@ -150,38 +150,36 @@ export default {
         return;
       }
       let formData = new FormData();
-      formData.append("email", this.loginForm.email);
+      formData.append("username", this.loginForm.email);
       formData.append("password", this.loginForm.password);
       this.$axios({
         method: "post" /* 指明请求方式，可以是 get 或 post */,
-        url: "/api/app1/login" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
+        url: "/login" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
         data: formData,
       })
           .then((res) => {
             /* res 是 response 的缩写 */
             switch (res.data.errno) {
-              case 100000:
+              case 0:
                 localStorage.clear();
                 console.log(res.data);
-                this.$store.state.email = res.data.post.email;
-                this.$store.state.user_name=res.data.post.name;
-                this.$store.state.url="http://43.138.76.79"+res.data.post.url;
+                this.$store.state.user_name=res.data.data.username;
                 this.$message.success("登录成功！");
                 this.$store.commit('login');//这个函数会修改login全局变量的值，当然也可以直接修改
                 localStorage.setItem('storeState',JSON.stringify(this.$store.state));
-                this.$router.push("/home/projects");
+                this.$router.push("/");
                 break;
-              case 100002:
-                this.$message.error("用户不存在或未注册!");
-                break;
-              case 100003:
-                this.$message.error("邮箱或密码错误！");
-                break;
-              case 100004:
-                this.$message.error("已经登录，请勿重复登录！");
-                break;
+              // case 100002:
+              //   this.$message.error("用户不存在或未注册!");
+              //   break;
+              // case 100003:
+              //   this.$message.error("邮箱或密码错误！");
+              //   break;
+              // case 100004:
+              //   this.$message.error("已经登录，请勿重复登录！");
+              //   break;
               default:
-                this.$message.error("其它错误！");
+                this.$message.error("登录失败！");
             }
           })
           .catch((err) => {
