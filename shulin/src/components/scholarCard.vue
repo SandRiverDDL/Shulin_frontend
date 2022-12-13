@@ -131,6 +131,7 @@ export default {
     display: inline-block;
     width: 65px;
     font-size: 15px;
+    color: rgb(151, 151, 151);
 
 }
 
