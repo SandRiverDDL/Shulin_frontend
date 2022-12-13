@@ -1,13 +1,19 @@
 <template>
   <div id="app">
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
 <style>
-*{
-  margin: 0px;
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
 }
+
+
 /*#app {*/
 /*  font-family: Avenir, Helvetica, Arial, sans-serif;*/
 /*  -webkit-font-smoothing: antialiased;*/
@@ -31,19 +37,19 @@
 </style>
 
 <script>
-export default{
+export default {
   name: "app",
-  created(){
+  created() {
     //在页面加载时读取localStorage里的状态信息
-    if(localStorage.getItem('storeState')){
+    if (localStorage.getItem('storeState')) {
       //replaceState，替换store的根状态
-      this.$store.replaceState(Object.assign({},this.$store.state,JSON.parse(localStorage.getItem('storeState'))))
+      this.$store.replaceState(Object.assign({}, this.$store.state, JSON.parse(localStorage.getItem('storeState'))))
     }
     //在页面刷新前将vuex里的信息保存到localStorage里（只有当登录时）
     window.addEventListener('beforeunload',()=>{
         localStorage.setItem('storeState',JSON.stringify(this.$store.state));
     })
-    console.log('storeState',localStorage.getItem('storeState'));
+    console.log('storeState', localStorage.getItem('storeState'));
   },
 }
 </script>

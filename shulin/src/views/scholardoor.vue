@@ -1,39 +1,48 @@
 <template>
 <div>
 <div class="message">
-    <el-row type="flex" style="margin-bottom: 20px;text-align: left">
-        <el-col :span="1" :offset="3" ><div id="name" style="font-size:30px;font-family:SimHei;font-weight:500">{{message.name}}</div></el-col>
-        <el-col :span="2" :offset="3"> <div id="id" style="border-style:solid;border-width:1px;background:#DDDDDD;margin-top: 2px">Scholarid:{{message.scholar_id}}</div></el-col>
-    </el-row>
-    <el-row type="flex" style="text-align: left;margin-bottom: 30px">
-        <el-col :span="1" :offset="3" >
-            <div style="margin-bottom: 6px">论文数</div>
-            <div id="h_index" >{{message.n_pubs}}</div>
-        </el-col>
-        <el-divider direction="vertical"></el-divider>
-        <el-col :span="1" >
-            <div style="margin-bottom:6px">引用数</div>
-            <div id="h_index">{{message.n_citation}}</div>
-        </el-col>
-        <el-divider direction="vertical"></el-divider>
-        <el-col :span="1">
-            <div style="margin-bottom:6px">h指数</div>
-            <div id="h_index">{{message.h_index}}</div>
+    <el-row type="flex" style="margin-bottom: 20px;">
+        <el-col :span="2" :offset="11">
+            <div id="name" style="font-size:30px;">{{message.name}}</div>
         </el-col>
     </el-row>
-    <el-row>
-        <el-col :span="18" :offset="3" >
-            <el-divider content-position="center"></el-divider>
-        </el-col>  
+    <el-row type="flex">
+        <el-col :span="4" :offset="10">
+            <div id="id" style="margin-top: 2px">
+                Scholarid:{{message.scholar_id}}
+            </div>
+        </el-col>
     </el-row>
+    <el-divider content-position="center"></el-divider> 
+    <el-row type="flex" class="data">
+        <el-col :span="8" >
+            <div  id="n_pubs">
+                <img src="../assets/icon/论文数.svg"/>
+                论文数:{{message.n_pubs}}
+            </div>
+        </el-col>
+        <el-col :span="8" >
+            <div id="n_citation">
+                <img src="../assets/icon/引用数.svg"/>
+                引用数:{{message.n_citation}}   
+            </div>
+        </el-col>
+        <el-col :span="8">
+            <div id="h_index">
+                <img src="../assets/icon/h指数.svg"/>
+                h指数:{{message.h_index}}
+            </div>
+        </el-col>
+    </el-row>
+    <el-divider content-position="center"></el-divider>
     <el-row v-for="(item,index) in paper" style="text-align: left;margin-bottom: 20px;">
-        <el-col :span="8" :offset="3">
+        <el-col :span="8">
             <router-link to="/detail" style="color:blue">{{item.title}}</router-link>
             <div style="font-size:5px">{{item.year}} - {{item.name}} - {{item.venues}} - 被引量:{{item.n_citation}}</div>
         </el-col>
     </el-row>
     <el-row style="text-align: left"> 
-        <el-col :span="8" :offset="3">
+        <el-col :span="8">
             <el-pagination   
             background 
             layout="prev, pager, next ,jumper" 
@@ -50,8 +59,7 @@
 </div>
 </template>
 <script>
-import { RouterLink } from 'vue-router';
-
+import { RouterLink } from 'vue-router'
 export default { 
     components: { RouterLink },
     data() {
@@ -147,6 +155,63 @@ export default {
                     venues:"《中国市场》",
                     n_citation: "3",
                 },
+                {
+                    paper_id: 10,
+                    title:'国内外垃圾分类综述',
+                    name:'姚蔚',
+                    year:'2022',
+                    venues:"《中国市场》",
+                    n_citation: "3",
+                },
+                {
+                    paper_id: 10,
+                    title:'国内外垃圾分类综述',
+                    name:'姚蔚',
+                    year:'2022',
+                    venues:"《中国市场》",
+                    n_citation: "3",
+                },
+                {
+                    paper_id: 10,
+                    title:'国内外垃圾分类综述',
+                    name:'姚蔚',
+                    year:'2022',
+                    venues:"《中国市场》",
+                    n_citation: "3",
+                },
+                {
+                    paper_id: 10,
+                    title:'国内外垃圾分类综述',
+                    name:'姚蔚',
+                    year:'2022',
+                    venues:"《中国市场》",
+                    n_citation: "3",
+                },
+                {
+                    paper_id: 10,
+                    title:'国内外垃圾分类综述',
+                    name:'姚蔚',
+                    year:'2022',
+                    venues:"《中国市场》",
+                    n_citation: "3",
+                },
+                {
+                    paper_id: 10,
+                    title:'国内外垃圾分类综述',
+                    name:'姚蔚',
+                    year:'2022',
+                    venues:"《中国市场》",
+                    n_citation: "3",
+                },
+                {
+                    paper_id: 10,
+                    title:'国内外垃圾分类综述',
+                    name:'姚蔚',
+                    year:'2022',
+                    venues:"《中国市场》",
+                    n_citation: "3",
+                },
+                
             ]
         };
     },
@@ -175,5 +240,17 @@ export default {
   margin:0 8px;
   vertical-align:bottom;
   position:relative;
+}
+.message {
+    width: 60%;
+    left: 20%;
+    position: absolute;
+}
+.data {
+    cursor: pointer;
+}
+.data img{
+    height: 30px;
+    vertical-align: middle;
 }
 </style>

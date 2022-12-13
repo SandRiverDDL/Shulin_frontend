@@ -1,15 +1,9 @@
 <template>
   <div>
     <div class="search" id="searchBox" :style="colorVar" @mouseout="changeColor" @mouseleave="changeColor2">
-
       <input type="text" class="input" v-model="searchInput" name="searchInput" />
-
-
       <img src="@/assets/icon/clear.svg" class="clear_icon" @click="clear" id="clear" />
-
-
       <img src="@/assets/icon/search.svg" class="search_icon" />
-
       <div class="resUl" :style="colorVar">
         <div class="resUl_2">
           <ul v-show="!empty">

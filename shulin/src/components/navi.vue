@@ -117,9 +117,9 @@ export default {
           this.$router.push("/advanced");
           break;
         case "3":
-          if(this.$route.path==="/searchScholar")
+          if(this.$route.path==="/scholarSearch")
             return;
-          this.$router.push("/searchScholar");
+          this.$router.push("/scholarSearch");
           break;
         case "4":
           if(this.$route.path==="/judge")
