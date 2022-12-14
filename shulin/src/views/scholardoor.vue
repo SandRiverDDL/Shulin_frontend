@@ -14,6 +14,7 @@
                     </div>
                 </el-col>
             </el-row>
+            <el-button type="primary" style="margin-top:5px" plain @click="request">我要申请</el-button>
             <el-divider content-position="center"></el-divider>
             <el-row type="flex" class="data">
                 <el-col :span="8">
@@ -88,7 +89,20 @@ export default {
         };
     },
     methods: {
-        //监听 pagesize 改变的事件
+        request(){
+          console.log(this.scholarId);
+          if(this.$store.state.state===1){
+            this.$message.error("您正在认证其他门户！");
+            return;
+          }
+          else if(this.$store.state.state===2){
+            this.$message.error("您已经认证了其他门户！");
+            return;
+          }
+          this.$store.state.request_id=this.scholarId;
+          this.$router.push('/request');
+        },
+      //监听 pagesize 改变的事件
         handleSizeChange(newsize) {
             //这里conso 选中第几页 最新的值
             console.log(newsize)

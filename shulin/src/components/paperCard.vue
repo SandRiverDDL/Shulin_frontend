@@ -1,4 +1,39 @@
 <template>
+<!--<<<<<<< HEAD-->
+<!--    <div>-->
+<!--      <span @click="show">555555</span>-->
+<!--      <div class="box" v-for="paper in this.$store.state.searched_paper">-->
+<!--        <div class="title"><span>{{ paper.title }}</span></div>-->
+<!--        <div class="author">-->
+<!--          <span v-for="author in paper.authors">-->
+<!--            <span class="one_author">{{ author.name }}</span>,&nbsp;-->
+<!--          </span>-->
+<!--        </div>-->
+<!--        <div style="display: inline-block; width: 20%;"></div>-->
+<!--        <div class="periodical">{{ paper.periodical }}</div>-->
+<!--        <div class="time">{{ paper.year }}</div>-->
+<!--        <div class="cite">-->
+<!--          <img src="../assets/icon/引用 copy.svg"/>-->
+<!--&lt;!&ndash;          <img src="../assets/icon/引用 copy.svg" v-if="icon == 1" />&ndash;&gt;-->
+<!--&lt;!&ndash;          <img src="../assets/icon/引用.svg" v-else />&ndash;&gt;-->
+<!--          <span @mouseover="changeIcon" @mouseleave="changeIcon" @click="showDialog">引用</span>-->
+<!--        </div>-->
+<!--        <el-dialog title="引用" :visible.sync="citeDialogVisible" width="65%" center>-->
+<!--          <el-row v-for="(item, index) in standards">-->
+<!--            <el-col :span="3">-->
+<!--              <div style="padding: 9px;"><b class="standard">{{ item.name }}</b></div>-->
+<!--            </el-col>-->
+<!--            <el-col :span="18">-->
+<!--              <div class="reference">{{ item.content }}</div>-->
+<!--            </el-col>-->
+<!--            <el-col :span="3">-->
+<!--              <div class="copyBox"><img src="@/assets/icon/copy.svg" class="copy" @click="doCopy(index)" />-->
+<!--              </div>-->
+<!--            </el-col>-->
+<!--          </el-row>-->
+<!--        </el-dialog>-->
+<!--      </div>-->
+<!--=======-->
   <div>
     <!--      <span @click="show">555555</span>-->
     <div class="box" v-for="paper in this.$store.state.searched_paper">
@@ -33,12 +68,14 @@
 <style scoped>
 .box {
   margin: auto;
-  padding: 10px;
+  padding: 20px;
+  border: 1px lightgray solid;
+  border-radius: 1%;
 }
 
 .title {
   text-align: left;
-  font-size: 25px;
+  font-size: 22px;
   width: 80%;
   overflow: hidden;
   white-space: nowrap;
@@ -87,14 +124,14 @@
   display: inline-block;
   color: #7C7C7C;
   text-align: left;
-  width: 20%;
+  width: 40%;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   cursor: pointer;
 }
 
-.author:hover {
+.one_author:hover {
   color: #003dff;
   text-decoration: underline
 }
@@ -113,7 +150,7 @@
   display: inline-block;
   color: #7C7C7C;
   text-align: right;
-  width: 30%;
+  width: 10%;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
