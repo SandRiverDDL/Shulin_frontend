@@ -1,7 +1,6 @@
 <template>
   <div class="home">
     <el-empty style="margin-left: 0"></el-empty>
-    555555
   </div>
 </template>
 

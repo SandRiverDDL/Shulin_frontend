@@ -1,34 +1,177 @@
 <template>
-    <div class="box">
-        <div class="title"><span>{{ title }}</span></div>
-        <div class="author">{{ author }}</div>
+    <div>
+<!--      <span @click="show">555555</span>-->
+      <div class="box" v-for="paper in this.$store.state.searched_paper">
+        <div class="title"><span>{{ paper.title }}</span></div>
+        <div class="author">{{ paper.author }}</div>
         <div style="display: inline-block; width: 20%;"></div>
-        <div class="periodical">{{ periodical }}</div>
-        <div class="time">{{ time }}</div>
+        <div class="periodical">{{ paper.periodical }}</div>
+        <div class="time">{{ paper.year }}</div>
         <div class="cite">
-            <img src="../assets/icon/引用 copy.svg" v-if="icon == 1" />
-            <img src="../assets/icon/引用.svg" v-else />
-            <span @mouseover="changeIcon" @mouseleave="changeIcon" @click="showDialog">引用</span>
+          <img src="../assets/icon/引用 copy.svg" v-if="icon == 1" />
+          <img src="../assets/icon/引用.svg" v-else />
+          <span @mouseover="changeIcon" @mouseleave="changeIcon" @click="showDialog">引用</span>
         </div>
+        <el-divider></el-divider>
         <el-dialog title="引用" :visible.sync="citeDialogVisible" width="65%" center>
-            <el-row v-for="(item, index) in standards">
-                <el-col :span="3">
-                    <div style="padding: 9px;"><b class="standard">{{ item.name }}</b></div>
-                </el-col>
-                <el-col :span="18">
-                    <div class="reference">{{ item.content }}</div>
-                </el-col>
-                <el-col :span="3">
-                    <div class="copyBox"><img src="@/assets/icon/copy.svg" class="copy" @click="doCopy(index)" />
-                    </div>
-                </el-col>
-            </el-row>
+          <el-row v-for="(item, index) in standards">
+            <el-col :span="3">
+              <div style="padding: 9px;"><b class="standard">{{ item.name }}</b></div>
+            </el-col>
+            <el-col :span="18">
+              <div class="reference">{{ item.content }}</div>
+            </el-col>
+            <el-col :span="3">
+              <div class="copyBox"><img src="@/assets/icon/copy.svg" class="copy" @click="doCopy(index)" />
+              </div>
+            </el-col>
+          </el-row>
         </el-dialog>
+      </div>
     </div>
 </template>
+
+<style scoped>
+.box {
+  margin: auto;
+  padding: 10px;
+}
+
+.title {
+  text-align: left;
+  font-size: 25px;
+  width: 80%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  margin-bottom: 15px;
+
+}
+
+/deep/.el-dialog__title {
+  font-family: "mama";
+  font-size: 25px;
+}
+
+/deep/.el-dialog.el-dialog--center {
+  border-radius: 8px;
+  position: absolute;
+  /* 设置为绝对定位，使下方的top和left生效  */
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.title span:hover {
+  color: #003dff;
+  text-decoration: underline
+}
+
+.title span {
+  color: #000;
+}
+
+.abstract {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  color: #7C7C7C;
+  text-align: left;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.author {
+  display: inline-block;
+  color: #7C7C7C;
+  text-align: left;
+  width: 20%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.author:hover {
+  color: #003dff;
+  text-decoration: underline
+}
+
+.time {
+  display: inline-block;
+  color: #7C7C7C;
+  text-align: right;
+  width: 10%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.periodical {
+  display: inline-block;
+  color: #7C7C7C;
+  text-align: right;
+  width: 30%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.cite {
+  display: inline-block;
+  color: #7C7C7C;
+  text-align: right;
+  width: 20%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.cite:hover {
+  color: #003dff;
+  text-decoration: underline
+}
+
+img {
+  height: 20px;
+}
+
+.reference {
+  font-size: 17px;
+  background-color: rgb(250, 250, 250);
+  border-radius: 2px;
+  border-color: rgb(240, 240, 240);
+  border-width: 1px;
+  border-style: solid;
+  padding: 8px;
+}
+
+.copy {
+  height: 20px !important;
+  cursor: pointer;
+
+}
+
+.copyBox {
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 8px;
+
+}
+
+.standard {
+  font-size: 17px;
+}
+</style>
+
 <script>
 export default {
     props: ['id'],
+    name: 'papers',
     data() {
         return {
             title: "海底捞员工激励机制研究",
@@ -52,12 +195,29 @@ export default {
                     content: "[1]郭田勇, & 孙光宇. (2020). 新冠疫情对我国经济的影响与应对之策. 银行家(4), 3."
                 }
             ],
+            papers:[
+              {
+                title: "aaaaa",
+                author: "chy, Bob, Sam",
+                periodical: "意林",
+                time: '2001',
+              },
+              {
+                title: "bbb",
+                author: "chy, Bob",
+                periodical: "意林",
+                time: '2001',
+              }
+            ]
         }
     },
 
     mounted() {
     },
     methods: {
+        show(){
+          console.log("paper页面的papers",this.$store.state.searched_paper);
+        },
         changeIcon() {
             if (this.icon == 1) {
                 this.icon = 2
@@ -95,140 +255,3 @@ export default {
     }
 }
 </script>
-<style scoped>
-.box {
-    width: 800px;
-    margin: auto;
-    padding: 10px;
-}
-
-.title {
-    text-align: left;
-    font-size: 25px;
-    width: 80%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    cursor: pointer;
-    margin-bottom: 15px;
-
-}
-
-/deep/.el-dialog__title {
-    font-family: "mama";
-    font-size: 25px;
-}
-
-/deep/.el-dialog.el-dialog--center {
-    border-radius: 8px;
-    position: absolute;
-    /* 设置为绝对定位，使下方的top和left生效  */
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.title span:hover {
-    color: #003dff;
-    text-decoration: underline
-}
-
-.title span {
-    color: #000;
-}
-
-.abstract {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-box-orient: vertical;
-    color: #7C7C7C;
-    text-align: left;
-    margin-top: 20px;
-    margin-bottom: 10px;
-}
-
-.author {
-    display: inline-block;
-    color: #7C7C7C;
-    text-align: left;
-    width: 20%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    cursor: pointer;
-}
-
-.author:hover {
-    color: #003dff;
-    text-decoration: underline
-}
-
-.time {
-    display: inline-block;
-    color: #7C7C7C;
-    text-align: right;
-    width: 10%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
-.periodical {
-    display: inline-block;
-    color: #7C7C7C;
-    text-align: right;
-    width: 30%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
-.cite {
-    display: inline-block;
-    color: #7C7C7C;
-    text-align: right;
-    width: 20%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    cursor: pointer;
-}
-
-.cite:hover {
-    color: #003dff;
-    text-decoration: underline
-}
-
-img {
-    height: 20px;
-}
-
-.reference {
-    font-size: 17px;
-    background-color: rgb(250, 250, 250);
-    border-radius: 2px;
-    border-color: rgb(240, 240, 240);
-    border-width: 1px;
-    border-style: solid;
-    padding: 8px;
-}
-
-.copy {
-    height: 20px !important;
-    cursor: pointer;
-
-}
-
-.copyBox {
-    padding-left: 16px;
-    padding-right: 16px;
-    padding-top: 8px;
-
-}
-
-.standard {
-    font-size: 17px;
-}
-</style>

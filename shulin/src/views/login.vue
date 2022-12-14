@@ -1,12 +1,12 @@
 <template>
   <div class="login">
+    <navi></navi>
     <div id="right-container">
       <div class="sign-list" style="display: block">
         <div class="text">
           <h1>登录</h1>
         </div>
         <div class="input-list">
-<<<<<<< HEAD
             <div class="list error">
               <input
                   type="text"
@@ -34,34 +34,16 @@
               没有账号？
               <a href="/register" class="red"> 立即注册 </a>
             </div>
-=======
-          <div class="list error">
-            <input type="text" class="input-text error" placeholder="电子邮箱" data-type="account"
-              v-model="loginForm.email" />
-          </div>
-          <div class="list error">
-            <input type="password" class="input-text error" placeholder="密码" data-type="password"
-              v-model="loginForm.password" />
-          </div>
-          <div class="button">
-            <button type="primary" roundsize="large" @click="login">
-              <p>登录</p>
-            </button>
-          </div>
-          <div class="other-text">
-            没有账号？
-            <a href="/register" class="red"> 立即注册 </a>
->>>>>>> 07f50d251aa466c26ce90277826eb22bef54dd90
+
           </div>
         </div>
       </div>
-    </div>
   </div>
 </template>
 
 <style scoped>
 .login {
-  background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%);
+  /*background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%);*/
   height: 100%;
   width: 100%;
   position: absolute;
@@ -70,10 +52,11 @@
 #right-container {
   background: white;
   border-radius: 32px;
-  box-shadow: 0 16px 32px 0 rgb(0 0 0 / 8%);
+  border: 2px lightgray solid;
+  box-shadow: lightgray 1px 1px 2px 2px;
   padding: 20px;
   width: 450px;
-  margin: 10% auto 0;
+  margin: 5% auto 0;
   text-align: center;
 }
 
@@ -155,13 +138,8 @@ a {
 }
 
 p {
-<<<<<<< HEAD
   font-size:20px;
   letter-spacing: 5px;
-=======
-  font-size: 20px;
-  letter-spacing: 10px;
->>>>>>> 07f50d251aa466c26ce90277826eb22bef54dd90
   color: aliceblue;
   font-weight: bold;
 }
@@ -169,9 +147,11 @@ p {
 
 <script>
 import store from "../store";
+import Navi from "@/components/navi";
 
 export default {
   name: "LoginView",
+  components: {Navi},
   data() {
     return {
       loginForm: {

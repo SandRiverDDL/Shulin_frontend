@@ -21,7 +21,7 @@
                   placeholder="验证码"
                   data-type="account"
                   v-model="regForm.code"
-                  style="width: 65%;display: inline;"
+                  style="width: 50%;display: inline;"
               />
               <el-button plain @click="send_code">发送验证码</el-button>
             </div>
@@ -69,7 +69,7 @@
 
 <style scoped>
 .register {
-  background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%);
+  /*background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%);*/
   height: 100%;
   width: 100%;
   position: absolute;
@@ -77,10 +77,11 @@
 #right-container {
   background: white;
   border-radius: 32px;
-  box-shadow: 0 16px 32px 0 rgb(0 0 0 / 8%);
+  border: 2px lightgray solid;
+  box-shadow: lightgray 1px 1px 2px 2px;
   padding: 20px;
   width: 500px;
-  margin: 10% auto 0;
+  margin: 5% auto 0;
   text-align: center;
 }
 .register .sign-list h1 {
@@ -95,6 +96,8 @@
   border-radius: 8px;
   transition: 0.3s;
   border: 1px solid #e9e9e9;
+  width: 80%;
+  margin: 0 auto;
 }
 .sign-list .input-list .list.error {
   margin-top: 15px;
@@ -107,7 +110,7 @@
   height: 48px;
   padding: 0 16px;
   display: block;
-  width: 60%;
+  width: 80%;
   margin: 0 auto;
   border-radius: 8px;
   border: 1px solid transparent;

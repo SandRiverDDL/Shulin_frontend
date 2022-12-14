@@ -14,6 +14,7 @@ export default new Vuex.Store({
     email: "",
     input: [],
     after_home: false,
+    searched_paper: [],
   },
   getters: {
   },
@@ -32,6 +33,7 @@ export default new Vuex.Store({
       this.state.email="";
       this.state.input=[];
       this.state.after_home=false;
+      this.state.searched_paper=[];
     },
   },
   actions: {

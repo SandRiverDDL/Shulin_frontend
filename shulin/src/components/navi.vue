@@ -6,7 +6,7 @@
       </div>
       <el-menu id="menu" mode="horizontal"  @select="handleSelect" active-text-color="#4281ff" style="float: left;font-size: 50px">
         <el-menu-item  index="1" style="font-size: 30px">主页</el-menu-item>
-        <el-menu-item  index="2" style="font-size: 30px">高级搜索</el-menu-item>
+<!--        <el-menu-item  index="2" style="font-size: 30px">高级搜索</el-menu-item>-->
         <el-menu-item  index="3" style="font-size: 30px">学者搜索</el-menu-item>
         <el-menu-item  index="4" v-if="this.$store.state.is_superuser===true" style="font-size: 30px">审核</el-menu-item>
       </el-menu>
@@ -83,7 +83,8 @@ export default {
   name: "navi",
   methods: {
     to_login: function (){
-      this.$router.push('/login');
+      if(this.$route.path!=='/login')
+        this.$router.push('/login');
     },
     show: function (){
       // this.$store.state.is_superuser=1;
