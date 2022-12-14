@@ -11,18 +11,13 @@
                 </div>
             </div>
         </div>
-
         <div class="moreBoxBox" :style="styleVar" @click="changeTime2">
             <div class="moreBox">
                 <img src="../../assets/icon/more.svg" class="menu" />
             </div>
         </div>
-        <div class="aside"></div>
         <div class="main">
-            <div class="bg">
-            </div>
-            <div class="info">
-
+            <div>
                 <div class="title">
                     <h1>{{ title }}</h1>
                 </div>
@@ -35,7 +30,7 @@
                         <b style="float: left;">摘要</b>
                     </el-col>
                     <el-col :span="20">
-                        <div class="keyword" v-if="abstract != ''">{{ abstract }}</div>
+                        <div class="keyword">{{ abstract }}</div>
                     </el-col>
                 </el-row>
                 <el-row>
@@ -103,7 +98,12 @@
                         <b style="float: left;">全部资源</b>
                         <div style="clear: both;"></div>
                     </div>
-                    <el-empty description="暂无资源"></el-empty>
+                    <el-empty description="暂无资源" v-if="urls.length = 0"></el-empty>
+                    <div v-else>
+                        <p v-for="item in urls">
+                            {{ item }}
+                        </p>
+                    </div>
                 </el-card>
             </div>
             <el-divider></el-divider>
@@ -137,7 +137,7 @@ import { RouterView } from 'vue-router'
 export default {
     data() {
         return {
-            id: "56d89846dabfae2eee219bd3",
+            id: this.$route.query.id,
             token: this.$store.state.token,
             authors: [{
                 name: "123",

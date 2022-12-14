@@ -1,6 +1,7 @@
 <template>
     <div>
-        <div class="message">
+      <navi></navi>
+      <div class="message">
             <el-row type="flex" style="margin-bottom: 20px;">
                 <el-col :span="18" :offset="3">
                     <div id="name" style="font-size:30px;">{{ message.name }}</div>
@@ -13,6 +14,7 @@
                     </div>
                 </el-col>
             </el-row>
+            <el-button type="primary" style="margin-top:5px" plain @click="request">主要按钮</el-button>
             <el-divider content-position="center"></el-divider>
             <el-row type="flex" class="data">
                 <el-col :span="8">
@@ -55,8 +57,9 @@
 <script>
 import { RouterLink } from 'vue-router'
 import paperCard from '../components/paperCard2.vue'
+import Navi from "@/components/navi";
 export default {
-    components: { RouterLink, paperCard },
+    components: {Navi, RouterLink, paperCard },
     mounted() {
         this.getScholarInfo()
     },
@@ -86,7 +89,20 @@ export default {
         };
     },
     methods: {
-        //监听 pagesize 改变的事件
+        request(){
+          console.log(this.scholarId);
+          if(this.$store.state.state===1){
+            this.$message.error("您正在认证其他门户！");
+            return;
+          }
+          else if(this.$store.state.state===2){
+            this.$message.error("您已经认证了其他门户！");
+            return;
+          }
+          this.$store.state.request_id=this.scholarId;
+          this.$router.push('/request');
+        },
+      //监听 pagesize 改变的事件
         handleSizeChange(newsize) {
             //这里conso 选中第几页 最新的值
             console.log(newsize)

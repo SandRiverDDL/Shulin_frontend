@@ -5,17 +5,6 @@
       <searchForPaper></searchForPaper>
     </div>
     <div id="container">
-<!--      <div class="pagination" style="float: left">-->
-<!--        <el-pagination-->
-<!--            background-->
-<!--            layout="total, sizes, prev, pager, next, jumper"-->
-<!--            :current-page="tablePage.pageNum"-->
-<!--            :page-size="tablePage.pageSize"-->
-<!--            :page-sizes="pageSizes"-->
-<!--            :total="tablePage.total"-->
-<!--            @size-change="handleSizeChange"-->
-<!--            @current-change="handlePageChange" />-->
-<!--      </div>-->
       <papers></papers>
     </div>
   </div>

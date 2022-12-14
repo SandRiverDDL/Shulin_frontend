@@ -30,6 +30,7 @@
 <script>
 export default {
     props: ['id'],
+    name: 'card2',
     data() {
         return {
             title: "13",
