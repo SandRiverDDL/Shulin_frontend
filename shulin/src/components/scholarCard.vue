@@ -1,13 +1,13 @@
 <template>
     <div id="scholarCard" class="box">
-        <el-avatar :size="80" :src="avatar" class="avatar"></el-avatar>
+        <el-avatar :size="80" class="avatar" @click="gotoScholar">{{ this.name }}</el-avatar>
         <div style="width: 30px; display: inline-block;"></div>
         <div class="content">
             <div class="name">
-                <p>{{ name }}</p>
+                <p @click="gotoScholar">{{ name }}</p>
             </div>
             <div class="org">
-                <p>{{ orgs }}</p>
+                <p v-if="this.orgs[0] != ''">{{ orgs[0] }}</p>
             </div>
             <div class="dataName">
                 <span>发表文章:</span>
@@ -23,16 +23,10 @@
             <div class="data">
                 <span>{{ n_citation }}</span>
             </div>
-            <div class="fieldName">
-                <span>研究领域:</span>
-            </div>
             <div style="width: 10px; display: inline-block;"></div>
-            <div class="field">
-                <span>{{ researchIntrest }}</span>
-            </div>
         </div>
         <div class="btn">
-            <el-button type="primary" round>查看主页</el-button>
+            <el-button type="primary" round @click="gotoScholar">查看主页</el-button>
         </div>
         <el-divider></el-divider>
     </div>
@@ -40,23 +34,15 @@
 <script>
 import cat from '@/assets/avatar/fish.webp'
 export default {
-    props: ['id'],
+    props: ['id', 'orgs', 'n_pubs', 'n_citation', 'name'],
     data() {
         return {
             myId: this.id,
-            avatar: cat,
-            name: "丁真",
-            orgs: "蚌埠学院",
-            position: "5555",
-            researchIntrest: "data mining",
-            n_pubs: 1217,
-            n_citation: 191,
-            pubs_i: "53e9b9fbb7602d",
         }
     },
     methods: {
-        getInfoById() {
-
+        gotoScholar() {
+            this.$router.push({ path: '/door', query: { scholarId: this.id } });
         }
     }
 }
@@ -106,6 +92,13 @@ export default {
     height: 20px;
     text-align: left;
     font-size: 15px;
+}
+
+p {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    cursor: pointer;
 }
 
 .data {

@@ -2,34 +2,32 @@
   <div>
     <!--      <span @click="show">555555</span>-->
     <div class="box" v-for="paper in this.$store.state.searched_paper">
-      <div class="title"><router-link :to="{ name: 'detail', query: { id: this.id } }"><span>{{ title
-      }}</span></router-link></div>
-    </div>
-    <div class="author">{{ paper.author }}</div>
-    <div style="display: inline-block; width: 20%;"></div>
-    <div class="periodical">{{ paper.periodical }}</div>
-    <div class="time">{{ paper.year }}</div>
-    <div class="cite">
-      <img src="../assets/icon/引用 copy.svg" />
+      <div class="title"><span>{{ paper.title }}</span></div>
+      <div class="author">{{ paper.author }}</div>
+      <div style="display: inline-block; width: 20%;"></div>
+      <div class="periodical">{{ paper.periodical }}</div>
+      <div class="time">{{ paper.year }}</div>
+      <div class="cite">
+        <img src="../assets/icon/引用 copy.svg" />
 
-      <span @mouseover="changeIcon" @mouseleave="changeIcon" @click="showDialog">引用</span>
+        <span @mouseover="changeIcon" @mouseleave="changeIcon" @click="showDialog">引用</span>
+      </div>
+      <el-divider></el-divider>
+      <el-dialog title="引用" :visible.sync="citeDialogVisible" width="65%" center>
+        <el-row v-for="(item, index) in standards">
+          <el-col :span="3">
+            <div style="padding: 9px;"><b class="standard">{{ item.name }}</b></div>
+          </el-col>
+          <el-col :span="18">
+            <div class="reference">{{ item.content }}</div>
+          </el-col>
+          <el-col :span="3">
+            <div class="copyBox"><img src="@/assets/icon/copy.svg" class="copy" @click="doCopy(index)" />
+            </div>
+          </el-col>
+        </el-row>
+      </el-dialog>
     </div>
-    <el-divider></el-divider>
-    <el-dialog title="引用" :visible.sync="citeDialogVisible" width="65%" center>
-      <el-row v-for="(item, index) in standards">
-        <el-col :span="3">
-          <div style="padding: 9px;"><b class="standard">{{ item.name }}</b></div>
-        </el-col>
-        <el-col :span="18">
-          <div class="reference">{{ item.content }}</div>
-        </el-col>
-        <el-col :span="3">
-          <div class="copyBox"><img src="@/assets/icon/copy.svg" class="copy" @click="doCopy(index)" />
-          </div>
-        </el-col>
-      </el-row>
-    </el-dialog>
-  </div>
   </div>
 </template>
 
