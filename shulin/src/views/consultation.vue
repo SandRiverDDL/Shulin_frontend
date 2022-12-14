@@ -44,18 +44,6 @@ export default {
 }
 </script>
 <style scoped>
-.chatBox {
-    width: 60%;
-    margin: auto;
-    padding: 50px;
-    font-size: 15px;
-    background-color: rgb(240, 240, 240);
-}
-
-.mine {}
-
-.others {}
-
 .dialogBoxRight {
     border-top-left-radius: 20px;
     border-bottom-right-radius: 20px;
