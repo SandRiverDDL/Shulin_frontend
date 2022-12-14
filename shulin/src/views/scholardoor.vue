@@ -1,5 +1,6 @@
 <template>
     <div>
+        <navi></navi>
         <div class="message">
             <el-row type="flex" style="margin-bottom: 20px;">
                 <el-col :span="18" :offset="3">
@@ -55,8 +56,9 @@
 <script>
 import { RouterLink } from 'vue-router'
 import paperCard from '../components/paperCard2.vue'
+import Navi from "@/components/navi";
 export default {
-    components: { RouterLink, paperCard },
+    components: { RouterLink, paperCard, Navi },
     mounted() {
         this.getScholarInfo()
     },

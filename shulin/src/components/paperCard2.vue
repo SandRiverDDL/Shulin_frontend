@@ -9,7 +9,7 @@
         <div class="cite">
             <img src="../assets/icon/引用 copy.svg" v-if="icon == 1" />
             <img src="../assets/icon/引用.svg" v-else />
-            <span @mouseover="changeIcon" @mouseleave="changeIcon" @click="showDialog">引用</span>
+            <span @mouseover="changeIcon" @mouseleave="changeIcon" @click="openIt">引用</span>
         </div>
         <el-dialog title="引用" :visible.sync="citeDialogVisible" width="65%" center>
             <el-row v-for="(item, index) in standards">
@@ -112,6 +112,23 @@ export default {
                     console.log(err); /* 若出现异常则在终端输出相关信息 */
                 });
         },
+        openIt() {
+            this.citeDialogVisible = true;
+            this.standards[0].content = "[1]";
+            let i;
+            for (i = 0; i < this.authors.length; i++)
+                this.standards[0].content += this.authors[i].name
+            this.standards[0].content = this.standards[0].content + ". " + this.title + "[J]. " + "," + this.time + ".";
+            this.standards[1].content = "[1]";
+            for (i = 0; i < this.authors.length; i++)
+                this.standards[1].content += this.authors[i].name
+            this.standards[1].content = this.standards[1].content + '. +\"' + this.title + '.\"' + "."
+            this.standards[2].content = "[1]";
+            for (i = 0; i < this.authors.length; i++)
+                this.standards[2].content += this.authors[i].name
+            this.standards[2].content = this.standards[2].content + '. (' + this.time + '). ' + this.title + '. ' + "."
+        },
+
     }
 }
 </script>

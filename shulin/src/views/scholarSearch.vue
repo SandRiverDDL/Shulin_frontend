@@ -1,5 +1,6 @@
 <template>
     <div>
+        <navi></navi>
         <div v-if="searched == false">
             <h1 style="margin-top: 200px;">学者检索</h1>
             <div>
@@ -73,9 +74,10 @@
 <script>
 import ScholarCard from "../components/scholarCard.vue";
 import search from '@/components/searchForScholar.vue'
+import Navi from "@/components/navi";
 export default {
     components: {
-        ScholarCard, search
+        ScholarCard, search, Navi
     },
     data() {
         return {
