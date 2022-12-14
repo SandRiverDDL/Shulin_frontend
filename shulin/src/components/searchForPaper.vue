@@ -114,7 +114,7 @@ export default {
                 console.log(res.data.errno);
                 switch (res.data.errno) {
                   case 0:
-                    // console.log("data",res.data);
+                    console.log("data",res.data);
                     this.$store.state.searched_paper=res.data.msg;
                     // console.log(this.$store.state.searched_paper)
                     break;

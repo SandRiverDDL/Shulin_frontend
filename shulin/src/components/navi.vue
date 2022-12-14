@@ -49,7 +49,6 @@
         <div v-else style="margin-top: 15px;font-size: 18px">您还未登录，请先&nbsp;<span id="login" @click="to_login">登录</span></div>
       </div>
       <div v-if="this.$store.state.login===true">
-        已经登录
       </div>
     </div>
   </div>

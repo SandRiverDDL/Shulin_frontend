@@ -15,6 +15,7 @@ export default new Vuex.Store({
     input: [],
     after_home: false,
     searched_paper: [],
+    will_see_paper_id: "",
   },
   getters: {
   },
@@ -34,6 +35,7 @@ export default new Vuex.Store({
       this.state.input=[];
       this.state.after_home=false;
       this.state.searched_paper=[];
+      this.state.will_see_paper_id="";
     },
   },
   actions: {
