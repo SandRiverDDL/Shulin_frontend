@@ -95,7 +95,7 @@ export default {
                 data: formData,
             })
                 .then((res) => {
-                    if (value = 1) {
+                    if (value == 1) {
                         this.$notify({
                             title: "通过申请",
                             message: "",
@@ -103,10 +103,9 @@ export default {
                         });
                     }
                     else {
-                        this.$notify({
+                        this.$notify.error({
                             title: "拒绝申请",
-                            message: "",
-                            type: "success"
+                            message: ""
                         });
                     }
                     this.getApp();

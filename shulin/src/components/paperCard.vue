@@ -263,7 +263,7 @@ export default {
       let i;
       for (i = 0; i < paper.authors.length; i++)
         this.standards[0].content += paper.authors[i].name
-      this.standards[0].content = this.standards[0].content + ". " + paper.title + "[J]. " + "," + paper.time + ".";
+      this.standards[0].content = this.standards[0].content + ". " + paper.title + "[J]. " + "," + paper.year + ".";
       this.standards[1].content = "[1]";
       for (i = 0; i < paper.authors.length; i++)
         this.standards[1].content += paper.authors[i].name
@@ -271,7 +271,7 @@ export default {
       this.standards[2].content = "[1]";
       for (i = 0; i < paper.authors.length; i++)
         this.standards[2].content += paper.authors[i].name
-      this.standards[2].content = this.standards[2].content + '. (' + paper.time + '). ' + paper.title + '. '
+      this.standards[2].content = this.standards[2].content + '. (' + paper.year + '). ' + paper.title + '. '
     },
     show() {
       console.log("paper页面的papers", this.$store.state.searched_paper);
