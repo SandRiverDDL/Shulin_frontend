@@ -208,7 +208,7 @@ export default {
         };
     },
     components: {
-
+        Navi
     },
     computed: {
         styleVar() {
@@ -578,7 +578,9 @@ export default {
 .main {
     display: inline-block;
     width: 60%;
-    margin: auto;
+    position: absolute;
+    top: 10%;
+    left: 22%;
     /*box-shadow: 0px 0px 20px rgb(146, 146, 146);*/
     border-radius: 15px;
     background-color: #fff;
