@@ -14,7 +14,7 @@
                 onBlur="if(!value){value=defaultValue; this.style.color='#999'}" style="color:#999" class="input"
                 v-model="searchInput" name="searchInput" />
             <img src="@/assets/icon/clear.svg" class="clear_icon" @click="clear" id="clear" />
-            <img src="@/assets/icon/search.svg" class="search_icon" />
+            <img src="@/assets/icon/search.svg" class="search_icon" @click="search"/>
         </div>
     </div>
 </template>
@@ -49,7 +49,10 @@ export default {
             }, {
               value: '3',
               label: '作者'
-            }, ],
+            },{
+              value: '4',
+              label: '来源'
+            } ],
           value: '0',
         }
     },
@@ -72,10 +75,36 @@ export default {
             this.searchInput = ""
         },
         search() {
+          if(this.searchInput===""){
+            this.$message.info("输入不能为空！");
+            return;
+          }
+          if(this.$route.path==='/'){
+            let tmp = {
+              relation: 'or',
+              type: this.value,
+              text: this.searchInput,
+            };
+            this.$store.state.input.push(tmp);
+            this.$router.push("/normal");
+          }
 
         }
+
+
     },
-    mounted() {
+
+  created() {
+      if(this.$store.state.after_home===true&&this.$route.path==='/normal'){
+        console.log("执行了");
+        this.value=this.$store.state.input[0].type;
+        this.searchInput=this.$store.state.input[0].text;
+        this.$store.state.input=[];
+        this.$store.state.after_home=false;
+      }
+
+  },
+  mounted() {
         // 模拟外部点击
         document.addEventListener('click', (e) => {
             if (e.target.className !== 'search') {

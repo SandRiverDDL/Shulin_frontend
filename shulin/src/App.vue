@@ -48,6 +48,7 @@ export default {
     //在页面刷新前将vuex里的信息保存到localStorage里（只有当登录时）
     window.addEventListener('beforeunload',()=>{
         localStorage.setItem('storeState',JSON.stringify(this.$store.state));
+        // localStorage.clear();
     })
     console.log('storeState', localStorage.getItem('storeState'));
   },

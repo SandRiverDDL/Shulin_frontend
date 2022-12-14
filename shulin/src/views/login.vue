@@ -10,7 +10,7 @@
               <input
                   type="text"
                   class="input-text error"
-                  placeholder="电子邮箱"
+                  placeholder="用户名"
                   data-type="account"
                   v-model="loginForm.email"
               />
@@ -123,7 +123,7 @@ a {
 }
 p {
   font-size:20px;
-  letter-spacing: 10px;
+  letter-spacing: 5px;
   color: aliceblue;
   font-weight: bold;
 }
@@ -159,34 +159,57 @@ export default {
       })
           .then((res) => {
             /* res 是 response 的缩写 */
+            // console.log("errno",res.data.errno);
             switch (res.data.errno) {
               case 0:
                 localStorage.clear();
                 console.log(res.data);
-                this.$store.state.user_name=res.data.data.username;
+                this.$store.state.token=res.data.data.token;
+                // console.log("res中的token",res.data.data.token);
                 this.$message.success("登录成功！");
                 this.$store.commit('login');//这个函数会修改login全局变量的值，当然也可以直接修改
                 localStorage.setItem('storeState',JSON.stringify(this.$store.state));
+                this.get_user_info();
                 this.$router.push("/");
                 break;
-              // case 100002:
-              //   this.$message.error("用户不存在或未注册!");
-              //   break;
-              // case 100003:
-              //   this.$message.error("邮箱或密码错误！");
-              //   break;
-              // case 100004:
-              //   this.$message.error("已经登录，请勿重复登录！");
-              //   break;
               default:
                 this.$message.error("登录失败！");
+                break;
             }
           })
           .catch((err) => {
             console.log(err); /* 若出现异常则在终端输出相关信息 */
           });
     },
+    get_user_info() {
+      let formData = new FormData();
+      formData.append("token", this.$store.state.token);
+      console.log('token', this.$store.state.token)
+      this.$axios({
+        method: 'post',
+        url: '/get_user_info',
+        data: formData,
+      })
+          .then(res => {
+            console.log(res.data.errno);
+            switch (res.data.errno) {
+              case 0:
+                console.log(res.data.msg);
+                this.$store.state.state = res.data.data.state;
+                this.$store.state.is_superuser = res.data.data.is_superuser;
+                this.$store.state.email=res.data.data.email;
+                this.$store.state.username=res.data.data.user_name;
+                break;
+              default:
+                this.$message.error("获取用户信息失败！")
+                break
+            }
+          }).catch(err => {
+        console.log(err);
+      })
+    }
   },
+
   created(){
     // let storeState = JSON.parse(localStorage.getItem('storeState'));
     // if(storeState)

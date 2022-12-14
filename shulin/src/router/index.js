@@ -23,14 +23,10 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/register.vue')
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    path: '/normal',
+    name: 'normal',
+    component: () => import(/* webpackChunkName: "about" */ '../views/normalSearch.vue')
   },
-
   {
     path: '/detail',
     name: 'detail',
@@ -54,16 +50,23 @@ const routes = [
   {
     path: '/user',
     name: 'user',
-    component: () => import(/* webpackChunkName: "about" */ '../views/userSpace.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/user.vue'),
+    children: [
+      {
+        path: '/user/collections',
+        name: 'collections',
+        component: () => import(/* webpackChunkName: "about" */ '../views/collections.vue')
+      },
+      {
+        path: '/user/following',
+        name: 'following',
+        component: () => import(/* webpackChunkName: "about" */ '../views/following.vue')
+      }
+    ]
   }, {
     path: '/request',
     name: 'request',
     component: () => import(/* webpackChunkName: "about" */ '../views/request.vue')
-  }, {
-    path: '/lab',
-    name: 'lab',
-    component: () => import('@/views/lab/Lab.vue')
-
   }, {
     path: '/door',
     name: 'door',

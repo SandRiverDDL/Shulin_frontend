@@ -1,9 +1,6 @@
 <template>
   <div class="home">
     <navi></navi>
-    <div id="web_title">
-      <span style="color: saddlebrown">书</span><span style="color: green">林</span>学术
-    </div>
     <div id="search">
       <searchForPaper></searchForPaper>
     </div>
@@ -30,9 +27,6 @@ export default {
   components: {
     searchForPaper,
     Navi,
-  },
-  created() {
-    this.$store.state.after_home=true;
   }
 }
 </script>
