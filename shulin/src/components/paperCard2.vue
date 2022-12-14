@@ -1,8 +1,8 @@
 <template>
     <div class="box">
-        <div class="title"><router-link :to="{ name: 'detail', query: { id: this.id } }"><span>{{ title
-        }}</span></router-link></div>
-        <div class="author">{{ authors }}</div>
+        <div class="title"><span @click="push">{{ title
+        }}</span></div>
+        <div class="author"><span v-for="item in authors">{{ item.name }}{{ " " }}</span></div>
         <div style="display: inline-block; width: 20%;"></div>
         <div class="periodical">{{ from }}</div>
         <div class="time">{{ time }}</div>
@@ -59,6 +59,9 @@ export default {
         this.getInfo();
     },
     methods: {
+        push() {
+            this.$router.push({ path: '/detail', query: { id: this.id } });
+        },
         changeIcon() {
             if (this.icon == 1) {
                 this.icon = 2
@@ -103,10 +106,10 @@ export default {
                 data: formData,
             })
                 .then((res) => {
-                    this.title = res.data.title;
-                    this.authors = res.data.authors;
-                    this.year = res.data.year;
-                    this.from = res.data.vennues;
+                    this.title = res.data.msg[0].title;
+                    this.authors = res.data.msg[0].authors;
+                    this.year = res.data.msg[0].year;
+                    this.from = res.data.msg[0].vennues;
                 })
                 .catch((err) => {
                     console.log(err); /* 若出现异常则在终端输出相关信息 */
@@ -148,7 +151,7 @@ export default {
     text-overflow: ellipsis;
     cursor: pointer;
     margin-bottom: 15px;
-
+    text-decoration: none;
 }
 
 /deep/.el-dialog__title {
@@ -167,11 +170,11 @@ export default {
 
 .title span:hover {
     color: #003dff;
-    text-decoration: underline
 }
 
 .title span {
     color: #000;
+    text-decoration: none
 }
 
 .abstract {
