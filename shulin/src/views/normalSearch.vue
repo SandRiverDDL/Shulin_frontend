@@ -1,11 +1,11 @@
 <template>
   <div class="home">
     <navi></navi>
-    <div id="web_title">
-      <span style="color: saddlebrown">书</span><span style="color: green">林</span>学术
-    </div>
     <div id="search">
       <searchForPaper></searchForPaper>
+    </div>
+    <div id="container">
+      <papers></papers>
     </div>
   </div>
 </template>
@@ -14,10 +14,13 @@
   text-align: center;
   margin: 30px auto;
 }
-#web_title{
-  margin-top: 150px;
-  font-size: 40px;
-  font-family: 'mama';
+#container{
+  width: 650px;
+  margin: 30px auto;
+  border: 1px lightgray solid;
+  box-shadow: lightgray 1px 1px 1px 1px;
+  border-radius: 1%;
+  padding: 10px;
 }
 </style>
 
@@ -25,14 +28,13 @@
 // @ is an alias to /src
 import Navi from "@/components/navi";
 import searchForPaper from "@/components/searchForPaper";
+import Papers from "@/components/paperCard";
 export default {
   name: 'HomeView',
   components: {
+    Papers,
     searchForPaper,
     Navi,
-  },
-  created() {
-    this.$store.state.after_home=true;
   }
 }
 </script>

@@ -14,7 +14,7 @@
                 onBlur="if(!value){value=defaultValue; this.style.color='#999'}" style="color:#999" class="input"
                 v-model="searchInput" name="searchInput" />
             <img src="@/assets/icon/clear.svg" class="clear_icon" @click="clear" id="clear" />
-            <img src="@/assets/icon/search.svg" class="search_icon" />
+            <img src="@/assets/icon/search.svg" class="search_icon" @click="search"/>
         </div>
     </div>
 </template>
@@ -38,19 +38,24 @@ export default {
             color2: '',
             deepColor: '',
             options: [{
-              value: '0',
+              value: 0,
               label: '篇名'
             }, {
-              value: '1',
+              value: 1,
               label: '关键词'
             }, {
-              value: '2',
+              value: 2,
               label: '摘要'
             }, {
-              value: '3',
+              value: 3,
               label: '作者'
-            }, ],
-          value: '0',
+            },{
+              value: 4,
+              label: '来源'
+            } ],
+          value: 0,
+          input: [],
+          tmp: null,
         }
     },
     computed: {
@@ -72,10 +77,67 @@ export default {
             this.searchInput = ""
         },
         search() {
-
+          if(this.searchInput===""){
+            this.$message.info("输入不能为空！");
+            return;
+          }
+          if(this.$route.path==='/'){
+            let tmp = {
+              relation: 'or',
+              type: this.value,
+              text: this.searchInput,
+            };
+            this.$store.state.input.push(tmp);
+            this.$router.push("/normal");
+            return;
+          }//下面是 /normal的情况
+          let tmp = {
+            relation: 'or',
+            type: this.value,
+            text: this.searchInput,
+          };
+          this.input=[];
+          this.input.push(tmp);
+          let formData = new FormData();
+          // formData.append("input", this.input);
+          formData.append("input",JSON.stringify(this.input));
+          // console.log('input是', JSON.stringify(this.input));
+          // console.log('string是', '[{"relation":"or","type":0,"text":"人工"}]');
+          // formData={"input":[{"relation": "or","type": 0,"text": "人工"}]};
+          console.log()
+          this.$axios({
+            method: 'post',
+            url: '/paper_search',
+            data: formData,
+          })
+              .then(res => {
+                console.log(res.data.errno);
+                switch (res.data.errno) {
+                  case 0:
+                    // console.log("data",res.data);
+                    this.$store.state.searched_paper=res.data.msg;
+                    // console.log(this.$store.state.searched_paper)
+                    break;
+                  default:
+                    this.$message.error("搜索失败！")
+                    break
+                }
+              }).catch(err => {
+            console.log(err);
+          })
         }
     },
-    mounted() {
+
+  created() {
+      if(this.$store.state.after_home===true&&this.$route.path==='/normal'){
+        console.log("执行了");
+        this.value=this.$store.state.input[0].type;
+        this.searchInput=this.$store.state.input[0].text;
+        this.$store.state.input=[];
+        this.$store.state.after_home=false;
+      }
+  },
+  mounted() {
         // 模拟外部点击
         document.addEventListener('click', (e) => {
             if (e.target.className !== 'search') {
@@ -170,7 +232,7 @@ export default {
     font-size: 17px;
     display: inline-block;
     vertical-align: middle;
-    padding: 10px;
+    padding: 10px 10px 10px 0px;
     margin-left: 10px;
 }
 

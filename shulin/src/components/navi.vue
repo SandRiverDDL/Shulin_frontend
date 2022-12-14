@@ -6,9 +6,9 @@
       </div>
       <el-menu id="menu" mode="horizontal"  @select="handleSelect" active-text-color="#4281ff" style="float: left;font-size: 50px">
         <el-menu-item  index="1" style="font-size: 30px">主页</el-menu-item>
-        <el-menu-item  index="2" style="font-size: 30px">高级搜索</el-menu-item>
+<!--        <el-menu-item  index="2" style="font-size: 30px">高级搜索</el-menu-item>-->
         <el-menu-item  index="3" style="font-size: 30px">学者搜索</el-menu-item>
-        <el-menu-item  index="4" v-if="this.$store.state.is_superuser===1" style="font-size: 30px">审核</el-menu-item>
+        <el-menu-item  index="4" v-if="this.$store.state.is_superuser===true" style="font-size: 30px">审核</el-menu-item>
       </el-menu>
       <div id="right1">
         <span v-if="this.$store.state.login==true">
@@ -23,13 +23,13 @@
                   <a class="pop-menu-text">个人空间</a>
                 </span>
               </el-menu-item>
-              <el-menu-item index="2" class="pop-menu-item" v-if="this.$store.state.status!==0">
+              <el-menu-item index="2" class="pop-menu-item" v-if="this.$store.state.state!==0">
                 <span slot="title">
                   <a class="pop-menu-text"
-                      v-if="this.$store.state.status===1"
+                      v-if="this.$store.state.state===1"
                   >我的申请</a>
                   <a class="pop-menu-text"
-                     v-if="this.$store.state.status===2"
+                     v-if="this.$store.state.state===2"
                   >我的门户</a>
                 </span>
               </el-menu-item>
@@ -46,7 +46,7 @@
             ></el-avatar>
           </el-popover>
         </span>
-        <span v-else>您还未登录，请先登录</span>
+        <div v-else style="margin-top: 15px;font-size: 18px">您还未登录，请先&nbsp;<span id="login" @click="to_login">登录</span></div>
       </div>
       <div v-if="this.$store.state.login===true">
         已经登录
@@ -56,12 +56,21 @@
 </template>
 
 <style scoped>
+#login{
+  color: #45D4FB;
+}
+#login:hover{
+  font-weight: bold;
+  color: #4281ff;
+  cursor: pointer;
+}
 #title{
   float: left;
   font-size: 44px;
-  margin-left: 40px;
-  margin-right: 40px;
+  margin-left: 60px;
+  margin-right: 60px;
   font-weight: bold;
+  font-family: 'mama';
 }
 #right1{
   float: right;
@@ -73,21 +82,26 @@
 export default {
   name: "navi",
   methods: {
+    to_login: function (){
+      if(this.$route.path!=='/login')
+        this.$router.push('/login');
+    },
     show: function (){
-      this.$store.state.is_superuser=1;
-      this.$store.state.login=true;
-      this.$store.state.status=0;
-      console.log("状态",this.$store.state.is_superuser);
+      // this.$store.state.is_superuser=1;
+      // this.$store.state.login=true;
+      // this.$store.state.state=0;
+      // console.log("状态",this.$store.state.is_superuser);
+      console.log(this.$store.state);
     },
     handlePopMenu(index) {
       console.log(index);
       switch (index) {
         case "1":
           console.log("个人信息");
-          this.$router.push("/userspace");
+          this.$router.push("/user");
           break;
         case "2":
-          if(this.$store.state.status===1){
+          if(this.$store.state.state===1){
             this.$router.push("/request");
           }
           else {
@@ -99,6 +113,7 @@ export default {
           this.$message.success("退出登录！");
           this.$store.commit("logout");
           localStorage.clear();
+          if(this.$route.path!=="/")
           this.$router.push("/");
       }
     },

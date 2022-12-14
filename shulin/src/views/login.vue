@@ -1,5 +1,6 @@
 <template>
   <div class="login">
+    <navi></navi>
     <div id="right-container">
       <div class="sign-list" style="display: block">
         <div class="text">
@@ -7,7 +8,7 @@
         </div>
         <div class="input-list">
           <div class="list error">
-            <input type="text" class="input-text error" placeholder="电子邮箱" data-type="account"
+            <input type="text" class="input-text error" placeholder="用户名" data-type="account"
               v-model="loginForm.email" />
           </div>
           <div class="list error">
@@ -23,6 +24,7 @@
             没有账号？
             <a href="/register" class="red"> 立即注册 </a>
           </div>
+
         </div>
       </div>
     </div>
@@ -31,7 +33,7 @@
 
 <style scoped>
 .login {
-  background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%);
+  /*background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%);*/
   height: 100%;
   width: 100%;
   position: absolute;
@@ -40,10 +42,11 @@
 #right-container {
   background: white;
   border-radius: 32px;
-  box-shadow: 0 16px 32px 0 rgb(0 0 0 / 8%);
+  border: 2px lightgray solid;
+  box-shadow: lightgray 1px 1px 2px 2px;
   padding: 20px;
   width: 450px;
-  margin: 10% auto 0;
+  margin: 5% auto 0;
   text-align: center;
 }
 
@@ -126,7 +129,7 @@ a {
 
 p {
   font-size: 20px;
-  letter-spacing: 10px;
+  letter-spacing: 5px;
   color: aliceblue;
   font-weight: bold;
 }
@@ -134,9 +137,11 @@ p {
 
 <script>
 import store from "../store";
+import Navi from "@/components/navi";
 
 export default {
   name: "LoginView",
+  components: { Navi },
   data() {
     return {
       loginForm: {
@@ -162,35 +167,58 @@ export default {
       })
         .then((res) => {
           /* res 是 response 的缩写 */
+          // console.log("errno",res.data.errno);
           switch (res.data.errno) {
             case 0:
               localStorage.clear();
               console.log(res.data);
-              this.$store.state.user_name = res.data.data.username;
+              this.$store.state.token = res.data.data.token;
+              // console.log("res中的token",res.data.data.token);
               this.$message.success("登录成功！");
               this.$store.commit('login');//这个函数会修改login全局变量的值，当然也可以直接修改
               localStorage.setItem('storeState', JSON.stringify(this.$store.state));
+              this.get_user_info();
               this.$store.state.token = res.data.data.token;
               this.$router.push("/");
               break;
-            // case 100002:
-            //   this.$message.error("用户不存在或未注册!");
-            //   break;
-            // case 100003:
-            //   this.$message.error("邮箱或密码错误！");
-            //   break;
-            // case 100004:
-            //   this.$message.error("已经登录，请勿重复登录！");
-            //   break;
             default:
               this.$message.error("登录失败！");
+              break;
           }
         })
         .catch((err) => {
           console.log(err); /* 若出现异常则在终端输出相关信息 */
         });
     },
+    get_user_info() {
+      let formData = new FormData();
+      formData.append("token", this.$store.state.token);
+      console.log('token', this.$store.state.token)
+      this.$axios({
+        method: 'post',
+        url: '/get_user_info',
+        data: formData,
+      })
+        .then(res => {
+          console.log(res.data.errno);
+          switch (res.data.errno) {
+            case 0:
+              console.log(res.data.msg);
+              this.$store.state.state = res.data.data.state;
+              this.$store.state.is_superuser = res.data.data.is_superuser;
+              this.$store.state.email = res.data.data.email;
+              this.$store.state.username = res.data.data.user_name;
+              break;
+            default:
+              this.$message.error("获取用户信息失败！")
+              break
+          }
+        }).catch(err => {
+          console.log(err);
+        })
+    }
   },
+
   created() {
     // let storeState = JSON.parse(localStorage.getItem('storeState'));
     // if(storeState)
@@ -198,6 +226,6 @@ export default {
     //   this.$store.replaceState(Object.assign({},this.$store.state,JSON.parse(localStorage.getItem('storeState'))))
     //   this.$router.push("/home/projects");
     // }
-  }
+  },
 };
 </script>

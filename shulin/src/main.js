@@ -16,8 +16,13 @@ Vue.config.productionTip = true
 Vue.prototype.$axios = axios;
 axios.defaults.baseURL = "http://114.116.219.180/test/";
 axios.defaults.withCredentials = true;
+
+// import {get_user_info} from "@/utils/method"
+
 new Vue({
   router,
   store,
   render: h => h(App)
 }).$mount('#app')
+
+// Vue.prototype.get_user_info=get_user_info();
