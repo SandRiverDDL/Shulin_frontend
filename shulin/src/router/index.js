@@ -37,12 +37,12 @@ const routes = [
     component: detail,
     children: [
       {
-        path: 'comments',
+        path: '',
         name: 'comments',
         component: comments
       },
       {
-        path: '',
+        path: '/data',
         name: 'data',
         component: data
       }
