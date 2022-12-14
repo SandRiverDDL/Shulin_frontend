@@ -14,8 +14,8 @@
                     <div slot="label" style="width: 100px; text-align: center;" v-else> <img
                             src="@/assets/icon/未处理.svg" />申请{{ index + 1 }}</div>
                     <div>
-                        <div class="title">申请人姓名:</div>
-                        <div class="name">{{ item.name }}</div>
+                        <div class="title">申请人ID:</div>
+                        <div class="name">{{ item.scholar_id }}</div>
                     </div>
                     <el-divider></el-divider>
                     <div>
@@ -25,16 +25,16 @@
                     <el-divider></el-divider>
                     <div>
                         <div class="title">申请时间:</div>
-                        <div class="name">{{ item.date }}</div>
+                        <div class="name">{{ item.apply_time }}</div>
                     </div><el-divider></el-divider>
                     <div>
                         <div class="title">申请原因:</div>
-                        <div class="reason">{{ item.reason }}</div>
+                        <div class="reason">{{ item.content }}</div>
                     </div>
-                    <div v-if="item.state === 2">
-                        <el-button @click="handleApp(1)" type="primary">通过申请</el-button>
+                    <div v-if="item.status === 0">
+                        <el-button @click="handleApp(1, item.application_id)" type="primary">通过申请</el-button>
                         <div style="display: inline-block; width: 200px;"></div>
-                        <el-button type="danger" @click="handleApp(2)">退回申请</el-button>
+                        <el-button type="danger" @click="handleApp(2, item.application_id)">退回申请</el-button>
                     </div>
                     <div v-else><el-button type="info">已完成审核</el-button></div>
 
@@ -53,7 +53,11 @@ export default {
         return {
             application: [
             ],
-            token: this.$store.state.token
+            token: this.$store.state.token,
+            names: [
+                { scholar_id: "" }
+            ],
+            scholarName: []
         }
     },
     components: {
@@ -73,24 +77,39 @@ export default {
                 data: formData,
             })
                 .then((res) => {
-
+                    this.application = res.data.data
+                    this.getName();
                 })
                 .catch((err) => {
                     console.log(err); /* 若出现异常则在终端输出相关信息 */
                 });
         },
-        handleApp(value) {
+        handleApp(value, id) {
             let formData = new FormData();
             formData.append('token', this.token);
-            formData.append('application_id', this.token);
-            formData.append('value', "'" + value + "'");
+            formData.append('application_id', id);
+            formData.append('value', value);
             this.$axios({
                 method: "post" /* 指明请求方式，可以是 get 或 post */,
                 url: "/handle_application" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
                 data: formData,
             })
                 .then((res) => {
-
+                    if (value = 1) {
+                        this.$notify({
+                            title: "通过申请",
+                            message: "",
+                            type: "success"
+                        });
+                    }
+                    else {
+                        this.$notify({
+                            title: "拒绝申请",
+                            message: "",
+                            type: "success"
+                        });
+                    }
+                    this.getApp();
                 })
                 .catch((err) => {
                     console.log(err); /* 若出现异常则在终端输出相关信息 */
@@ -140,7 +159,7 @@ export default {
 }
 
 .el-tabs--left {
-    height: 85vh;
+    height: 90vh;
 }
 
 img {
