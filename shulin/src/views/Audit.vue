@@ -44,28 +44,29 @@ export default {
     data() {
         return {
             application: [
-                {
-                    reason: "我要申请我要申请我要申请我要申请我要申请我要申请我要申请我要申请我要申请我要申请我要申请我要申请我要申请我要申请我要申请我要申请我要申请我要申请我要申请我要申请我要申请我要申请我要申请我要申请我要申请我要申请我要申请我要申请我要申请我要申请我要申请我要申请我要申请我要申请我要申请我要申请我要申请我要申请",
-                    email: "我的email",
-                    name: "我的名字",
-                    date: "2022年12月13日",
-                    state: 0
-                },
-                {
-                    reason: "我要申请",
-                    email: "我的email",
-                    name: "我的名字",
-                    date: "2022年12月13日",
-                    state: 1
-                },
-                {
-                    reason: "我要申请",
-                    email: "我的email",
-                    name: "我的名字",
-                    date: "2022年12月13日",
-                    state: 2
-                },
-            ]
+            ],
+            token: this.$store.state.token
+        }
+    },
+    mounted() {
+        this.getApp()
+    },
+    methods: {
+        getApp() {
+            let formData = new FormData();
+            formData.append('token', this.token);
+
+            this.$axios({
+                method: "post" /* 指明请求方式，可以是 get 或 post */,
+                url: "/get_all_application" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
+                data: formData,
+            })
+                .then((res) => {
+
+                })
+                .catch((err) => {
+                    console.log(err); /* 若出现异常则在终端输出相关信息 */
+                });
         }
     }
 }

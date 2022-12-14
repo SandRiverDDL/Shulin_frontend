@@ -11,12 +11,7 @@
                 </div>
             </div>
         </div>
-        <div class="menuBoxBox" v-if="showbt = true">
-            <div class="menuBox" id="menuBox">
-                <img src="../../assets/icon/menu_out.svg" v-if="showMenu === false" class="menu" />
-                <img src="../../assets/icon/menu_in.svg" v-else class="menu" />
-            </div>
-        </div>
+
         <div class="moreBoxBox" :style="styleVar" @click="changeTime2">
             <div class="moreBox">
                 <img src="../../assets/icon/more.svg" class="menu" />
@@ -29,10 +24,10 @@
             <div class="info">
 
                 <div class="title">
-                    <h1>国内外垃圾分类模式综述</h1>
+                    <h1>{{ title }}</h1>
                 </div>
                 <div class="author">
-                    姚蔚，金鑫，吴蒨蒨
+                    <span v-for="item in authors">{{ item.name }} </span>
                 </div>
                 <el-divider></el-divider>
                 <el-row>
@@ -40,27 +35,25 @@
                         <b style="float: left;">摘要</b>
                     </el-col>
                     <el-col :span="20">
-                        <div class="keyword">本文较全面地介绍了知网,它是一个可用于自然语言处理的知识系统的知网,现已在因特网上公开
-                            发布.它的知识词典现包含汉语词语5万条和对应的概念6万多条,以及与之对应的英语词语5
-                            5万条和概念7万多条.本文涉及有关建立网状关系语义的一些重要问题.作者也就知网对汉语研究的影响和启迪进行了较多的讨论,关键是如何建立汉语的语义句 法.</div>
+                        <div class="keyword" v-if="abstract != ''">{{ abstract }}</div>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="4"><b style="float: left;">关键词</b></el-col>
                     <el-col :span="20">
-                        <div class="keyword">知网,概念,概念特征,语汇语用学,计算语义学</div>
+                        <div class="keyword">{{ keyword }}</div>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="4"><b style="float: left;">DOI</b></el-col>
                     <el-col :span="20">
-                        <div class="keyword">10.3969/j.issn.1007-8274.2001.01.003</div>
+                        <div class="keyword">{{ doi }}</div>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="4"><b style="float: left;">来源期刊</b></el-col>
                     <el-col :span="20">
-                        <div class="keyword">中国市场. 2022,(27)</div>
+                        <div class="keyword">{{ from }}</div>
                     </el-col>
                 </el-row>
                 <el-dialog title="引用" :visible.sync="citeDialogVisible" width="65%" center>
@@ -84,13 +77,18 @@
                     </el-col>
                     <el-col :span="5" v-for="(item, index) in icons">
                         <div class="action" @mouseover="changeToWhite(index)" @mouseleave="changeToBlack(index)"
-                            v-if="(index === 1)" @click="citeDialogVisible = true">
+                            v-if="(index === 1)" @click="openIt">
                             <img :src=item.img />
                             <b>{{ item.name }}</b>
+                        </div>
+                        <div class="action" v-else-if="(index === 0)" @click="download"><img :src=item.img /><b>{{
+                                item.name
+                        }}</b>
                         </div>
                         <div class="action" @mouseover="changeToWhite(index)" @mouseleave="changeToBlack(index)" v-else>
                             <img :src=item.img /><b>{{ item.name }}</b>
                         </div>
+
                     </el-col>
                 </el-row>
                 <el-card class="box-card" shadow="never">
@@ -98,23 +96,17 @@
                         <b style="float: left;">全部资源</b>
                         <div style="clear: both;"></div>
                     </div>
-                    <el-row :gutter="40">
-                        <el-col :span="10" v-for="item in resource">
-                            <img :src=item.img class="resource" />
-                            <a class="resource">{{ item.name }}</a>
-                        </el-col>
-                    </el-row>
+                    <el-empty description="暂无资源"></el-empty>
                 </el-card>
             </div>
             <el-divider></el-divider>
-            <router-link to="/detail"><b style="float: left; font-size: 20px;" class="table">数据分析</b></router-link>
 
-            <b style="float: left; font-size: 20px; margin-left: 10px; margin-top: 3px;">/</b>
-            <router-link to="/detail/comments"><b style="float: left; font-size: 20px; margin-left: 10px;"
+
+            <router-link to="/detail"><b style="float: left; font-size: 20px; margin-left: 10px;"
                     class="table">评论</b></router-link>
             <span style="float: left; font-size: 15px; margin: 8px;">{{ commentNum }}</span>
             <div style="clear: both;"></div>
-            <router-view></router-view>
+            <router-view :paper_id="id"></router-view>
         </div>
 
     </div>
@@ -139,7 +131,22 @@ import { RouterView } from 'vue-router'
 export default {
     data() {
         return {
-            id: 1,
+            id: "56d89846dabfae2eee219bd3",
+            token: this.$store.state.token,
+            authors: [{
+                name: "123",
+            },
+            {
+                name: "456"
+            }],
+            title: "",
+            doi: "",
+            from: "",
+            abstract: "",
+            keyword: "",
+            collectedPaper: "",
+            urls: [],
+            year: "",
             activeName: "second",
             like: unlike,
             liked: like,
@@ -152,6 +159,7 @@ export default {
             deg: 450,
             deg0: 0,
             deg1: 450,
+            wanfang: wanfang,
             citeDialogVisible: false,
             showMenu: false,
             showBt: true,
@@ -183,31 +191,20 @@ export default {
                 }
             ],
             resource: [
-                {
-                    img: wanfang,
-                    name: "万方数据"
-                },
-                {
-                    img: wanfang,
-                    name: "万方数据"
-                },
-                {
-                    img: wanfang,
-                    name: "万方数据"
-                }
+
             ],
             standards: [
                 {
                     name: "GB/T 7714",
-                    content: "[1]郭田勇, 孙光宇. 新冠疫情对我国经济的影响与应对之策[J]. 银行家, 2020(4):3."
+                    content: ""
                 },
                 {
                     name: "MLA",
-                    content: "[1]郭田勇, and 孙光宇. \"新冠疫情对我国经济的影响与应对之策.\" 银行家 4(2020):3."
+                    content: "[1]" + this.authors + '. +\"' + this.title + '.\"' + this.from + "."
                 },
                 {
                     name: "APA",
-                    content: "[1]郭田勇, & 孙光宇. (2020). 新冠疫情对我国经济的影响与应对之策. 银行家(4), 3."
+                    content: "[1]" + this.authors + '. (' + this.time + '). ' + this.title + '. ' + this.from + "."
                 }
             ],
 
@@ -227,8 +224,24 @@ export default {
     mounted() {
         window.addEventListener("scroll", this.showbtn, true);
         this.getInfo()
+        this.getCollected()
     },
     methods: {
+        download() {
+            this.$notify.error({
+                title: "暂无资源",
+                message: ""
+            });
+        },
+        openIt() {
+            this.citeDialogVisible = true;
+            this.standards[0].content = "[1]";
+            let i;
+            for (i = 0; i < this.authors.length; i++)
+                this.standards[0].content += this.authors[i].name
+            this.standards[0].content = this.standards + ". " + this.title + "[J]. " + this.from + "," + this.time + "."
+        },
+
         likeIt: function () {
             if (this.like == this.unliked) {
                 this.like = this.liked;
@@ -244,6 +257,34 @@ export default {
             else {
                 this.collectIcon = this.collected;
             }
+            let formData = new FormData();
+            formData.append('paper_id', this.id);
+            formData.append('token', this.token)
+            this.$axios({
+                method: "post" /* 指明请求方式，可以是 get 或 post */,
+                url: "/favorite" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
+                data: formData,
+            })
+                .then((res) => {
+                    if (this.collectIcon == this.collected) {
+                        this.$notify({
+                            title: "收藏成功",
+                            message: "",
+                            type: "success"
+                        });
+                    }
+                    else {
+                        this.$notify({
+                            title: "取消收藏成功",
+                            message: "",
+                            type: "success"
+                        });
+                    }
+
+                })
+                .catch((err) => {
+                    console.log(err); /* 若出现异常则在终端输出相关信息 */
+                });
         },
         changeTime() {
             this.time = 1;
@@ -272,21 +313,19 @@ export default {
                 this.deg1 = 0;
                 this.deg = 0;
             }
-            var box = document.getElementById("menuBox");
+
             var bt = document.getElementById("backBox");
             var collect = document.getElementById("collectBox");
             if (this.showBt == true) {
                 this.showBt = false;
-                box.style.right = "50px";
-                box.style.opacity = "0";
+
                 bt.style.bottom = "50px";
                 bt.style.opacity = "0";
                 collect.style.bottom = "50px";
                 collect.style.opacity = "0";
             }
             else {
-                box.style.right = "100px";
-                box.style.opacity = "1";
+
                 bt.style.bottom = "100px";
                 bt.style.opacity = "1";
                 collect.style.bottom = "150px";
@@ -323,23 +362,80 @@ export default {
                 });
             }
         },
+        doCopyUrl: function () {
+            var success;
+            this.$copyText("").then(function (e) {
+                success = true;
+                console.log(e);
+            }, function (e) {
+                success = false;
+                console.log(e);
+            });
+            if (success = true) {
+                this.$notify({
+                    title: "复制成功",
+                    message: "",
+                    type: "success"
+                });
+            }
+            else {
+                this.$notify.error({
+                    title: "错误",
+                    message: "这是一条错误的提示消息"
+                });
+            }
+        },
         getInfo() {
+            let formData = new FormData();
+            formData.append('paper_id', this.id);
+
             this.$axios({
-                method: "post",
-                url: "/get_paper_info",
-                data: {
-                    paper_id: "1000"
-                },
+                method: "post" /* 指明请求方式，可以是 get 或 post */,
+                url: "/paper_id_search" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
+                data: formData,
             })
                 .then((res) => {
-                    alert(res.data.msg)
+                    this.title = res.data.msg[0].title;
+                    this.abstract = res.data.msg[0].abstract;
+                    this.keyword = res.data.msg[0].keyword;
+                    this.authors = res.data.msg[0].authors;
+                    this.year = res.data.year;
+                    this.from = res.data.vennues;
+                    this.commentNum = res.data.comments;
+                    this.urls = res.data.urls;
                 })
                 .catch((err) => {
-                    console.log(err);
+                    console.log(err); /* 若出现异常则在终端输出相关信息 */
                 });
+        },
+        getCollected() {
+            let formData = new FormData();
+            formData.append('token', this.token);
+
+            this.$axios({
+                method: "post" /* 指明请求方式，可以是 get 或 post */,
+                url: "/get_favorite" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
+                data: formData,
+            })
+                .then((res) => {
+                    this.collectedPaper = res.data.data
+
+                    var s = this.id;
+                    var a = this.collectedPaper.indexOf(s);
+                    if (a != -1) {
+                        this.collectIcon = this.collected
+                    }
+                    else {
+                        this.collectIcon = this.uncollected
+                    }
+                })
+                .catch((err) => {
+                    console.log(err); /* 若出现异常则在终端输出相关信息 */
+                });
+
+
         }
-    },
-    components: { RouterView }
+    }
 };
 </script>
 <style scoped>

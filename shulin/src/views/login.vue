@@ -170,6 +170,7 @@ export default {
               this.$message.success("登录成功！");
               this.$store.commit('login');//这个函数会修改login全局变量的值，当然也可以直接修改
               localStorage.setItem('storeState', JSON.stringify(this.$store.state));
+              this.$store.state.token = res.data.data.token;
               this.$router.push("/");
               break;
             // case 100002:
