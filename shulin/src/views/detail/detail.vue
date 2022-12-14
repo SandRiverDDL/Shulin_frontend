@@ -56,6 +56,12 @@
                         <div class="keyword">{{ from }}</div>
                     </el-col>
                 </el-row>
+                <el-row>
+                    <el-col :span="4"><b style="float: left;">时间</b></el-col>
+                    <el-col :span="20">
+                        <div class="keyword">{{ year }}</div>
+                    </el-col>
+                </el-row>
                 <el-dialog title="引用" :visible.sync="citeDialogVisible" width="65%" center>
                     <el-row v-for="(item, index) in standards">
                         <el-col :span="3">
@@ -72,7 +78,7 @@
                     </el-row>
                 </el-dialog>
                 <el-row :gutter="40">
-                    <el-col :span="2">
+                    <el-col :span="4">
                         <div style="color: #fff;">1</div>
                     </el-col>
                     <el-col :span="5" v-for="(item, index) in icons">
@@ -85,7 +91,8 @@
                                 item.name
                         }}</b>
                         </div>
-                        <div class="action" @mouseover="changeToWhite(index)" @mouseleave="changeToBlack(index)" v-else>
+                        <div class="action" @mouseover="changeToWhite(index)" @mouseleave="changeToBlack(index)" v-else
+                            @click="share">
                             <img :src=item.img /><b>{{ item.name }}</b>
                         </div>
 
@@ -104,7 +111,6 @@
 
             <router-link to="/detail"><b style="float: left; font-size: 20px; margin-left: 10px;"
                     class="table">评论</b></router-link>
-            <span style="float: left; font-size: 15px; margin: 8px;">{{ commentNum }}</span>
             <div style="clear: both;"></div>
             <router-view :paper_id="id"></router-view>
         </div>
@@ -178,12 +184,6 @@ export default {
                     name: "引用"
                 },
                 {
-                    img: report_black,
-                    img1: report_black,
-                    img2: report_white,
-                    name: "报错"
-                },
-                {
                     img: share_black,
                     img1: share_black,
                     img2: share_white,
@@ -200,11 +200,11 @@ export default {
                 },
                 {
                     name: "MLA",
-                    content: "[1]" + this.authors + '. +\"' + this.title + '.\"' + this.from + "."
+                    content: ""
                 },
                 {
                     name: "APA",
-                    content: "[1]" + this.authors + '. (' + this.time + '). ' + this.title + '. ' + this.from + "."
+                    content: ""
                 }
             ],
 
@@ -233,13 +233,22 @@ export default {
                 message: ""
             });
         },
+
         openIt() {
             this.citeDialogVisible = true;
             this.standards[0].content = "[1]";
             let i;
             for (i = 0; i < this.authors.length; i++)
                 this.standards[0].content += this.authors[i].name
-            this.standards[0].content = this.standards + ". " + this.title + "[J]. " + this.from + "," + this.time + "."
+            this.standards[0].content = this.standards[0].content + ". " + this.title + "[J]. " + "," + this.time + ".";
+            this.standards[1].content = "[1]";
+            for (i = 0; i < this.authors.length; i++)
+                this.standards[1].content += this.authors[i].name
+            this.standards[1].content = this.standards[1].content + '. +\"' + this.title + '.\"' + "."
+            this.standards[2].content = "[1]";
+            for (i = 0; i < this.authors.length; i++)
+                this.standards[2].content += this.authors[i].name
+            this.standards[2].content = this.standards[2].content + '. (' + this.time + '). ' + this.title + '. ' + "."
         },
 
         likeIt: function () {
@@ -362,7 +371,7 @@ export default {
                 });
             }
         },
-        doCopyUrl: function () {
+        share: function () {
             var success;
             this.$copyText("").then(function (e) {
                 success = true;
@@ -399,9 +408,9 @@ export default {
                     this.abstract = res.data.msg[0].abstract;
                     this.keyword = res.data.msg[0].keyword;
                     this.authors = res.data.msg[0].authors;
-                    this.year = res.data.year;
-                    this.from = res.data.vennues;
-                    this.commentNum = res.data.comments;
+                    this.year = res.data.msg[0].year;
+                    this.from = res.data.msg[0].vennues;
+
                     this.urls = res.data.urls;
                 })
                 .catch((err) => {
