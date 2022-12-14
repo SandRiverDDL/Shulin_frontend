@@ -247,18 +247,14 @@ export default {
       })
     }
   },
-<<<<<<< HEAD
 
   created(){
-=======
-  created() {
->>>>>>> 07f50d251aa466c26ce90277826eb22bef54dd90
     // let storeState = JSON.parse(localStorage.getItem('storeState'));
     // if(storeState)
     // {
     //   this.$store.replaceState(Object.assign({},this.$store.state,JSON.parse(localStorage.getItem('storeState'))))
     //   this.$router.push("/home/projects");
     // }
-  }
+  },
 };
 </script>
