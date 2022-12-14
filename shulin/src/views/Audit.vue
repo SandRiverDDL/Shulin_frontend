@@ -2,6 +2,7 @@
     <div>
         <navi></navi>
         <div class="box">
+            <h1>学者门户申请审核</h1>
             <el-tabs type="border-card" tab-position="left">
                 <el-tab-pane v-for="(item, index) in application">
                     <div slot="label" style="width: 100px; text-align: center;" v-if="item.state === 0"> <img
@@ -39,7 +40,10 @@
 
                 </el-tab-pane>
             </el-tabs>
+            <div style="height: 50px;"></div>
         </div>
+
+
     </div>
 </template>
 <script>
