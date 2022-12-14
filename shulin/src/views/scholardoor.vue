@@ -14,7 +14,7 @@
                     </div>
                 </el-col>
             </el-row>
-            <el-button type="primary" style="margin-top:5px" plain @click="request">主要按钮</el-button>
+            <el-button type="primary" style="margin-top:5px" plain @click="request">我要申请</el-button>
             <el-divider content-position="center"></el-divider>
             <el-row type="flex" class="data">
                 <el-col :span="8">
