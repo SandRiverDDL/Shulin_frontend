@@ -1,8 +1,7 @@
 <template>
     <div>
         <navi></navi>
-        <div style="width: 70%; margin: auto;">
-
+        <div class="box">
             <el-tabs type="border-card" tab-position="left">
                 <el-tab-pane v-for="(item, index) in application">
                     <div slot="label" style="width: 100px; text-align: center;" v-if="item.state === 0"> <img
@@ -97,6 +96,13 @@ export default {
 }
 </script>
 <style>
+.box {
+    position: absolute;
+    left: 15%;
+    top: 10%;
+    width: 70%;
+}
+
 .name {
     display: inline-block;
     width: 80%;
