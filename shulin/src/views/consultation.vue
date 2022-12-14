@@ -44,18 +44,6 @@ export default {
 }
 </script>
 <style scoped>
-.dialogBoxRight {
-    border-top-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-    border-bottom-left-radius: 20px;
-    border: solid #000 0px;
-    padding: 11px;
-    max-width: 60%;
-    margin: 10px;
-    background-color: #0076fd;
-    color: #fff;
-}
-
 .dialogBoxLeft {
     border-top-right-radius: 20px;
     border-bottom-left-radius: 20px;
