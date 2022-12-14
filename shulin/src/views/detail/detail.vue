@@ -1,5 +1,6 @@
 <template>
     <div>
+        <navi></navi>
         <div class="backBoxBox" v-if="showbt = true">
             <div class="backBox" id="backBox">
                 <img src="../../assets/icon/up.svg" class="menu" @click="backTop" />
@@ -98,12 +99,7 @@
                         <b style="float: left;">全部资源</b>
                         <div style="clear: both;"></div>
                     </div>
-                    <el-empty description="暂无资源" v-if="urls.length = 0"></el-empty>
-                    <div v-else>
-                        <p v-for="item in urls">
-                            {{ item }}
-                        </p>
-                    </div>
+                    <el-empty description="暂无资源"></el-empty>
                 </el-card>
             </div>
             <el-divider></el-divider>
@@ -134,6 +130,7 @@ import share_black from '@/assets/icon/share.svg'
 import share_white from '@/assets/icon/share_white.svg'
 import wanfang from '@/assets/icon/link.svg'
 import { RouterView } from 'vue-router'
+import Navi from "@/components/navi";
 export default {
     data() {
         return {
@@ -209,6 +206,10 @@ export default {
             ],
 
         };
+    },
+    components: {
+      Navi
+
     },
     computed: {
         styleVar() {

@@ -37,32 +37,17 @@
   <div>
     <!--      <span @click="show">555555</span>-->
     <div class="box" v-for="paper in this.$store.state.searched_paper">
-      <div class="title"><span>{{ paper.title }}</span></div>
+      <div class="title"><span @click="push(paper.id)">{{ paper.title }}</span></div>
       <div class="author">{{ paper.author }}</div>
       <div style="display: inline-block; width: 20%;"></div>
       <div class="periodical">{{ paper.periodical }}</div>
       <div class="time">{{ paper.year }}</div>
       <div class="cite">
         <img src="../assets/icon/引用 copy.svg" />
-        <span @mouseover="changeIcon" @mouseleave="changeIcon" @click="showDialog">引用</span>
+        <span @mouseover="changeIcon" @mouseleave="changeIcon" @click="openIt(paper)">引用</span>
       </div>
       <el-divider></el-divider>
-      <el-dialog title="引用" :visible.sync="citeDialogVisible" width="65%" center>
-        <el-row v-for="(item, index) in standards">
-          <el-col :span="3">
-            <div style="padding: 9px;"><b class="standard">{{ item.name }}</b></div>
-          </el-col>
-          <el-col :span="18">
-            <div class="reference">{{ item.content }}</div>
-          </el-col>
-          <el-col :span="3">
-            <div class="copyBox"><img src="@/assets/icon/copy.svg" class="copy" @click="doCopy(index)" />
-            </div>
-          </el-col>
-        </el-row>
-      </el-dialog>
     </div>
-    <el-divider></el-divider>
     <el-dialog title="引用" :visible.sync="citeDialogVisible" width="65%" center>
       <el-row v-for="(item, index) in standards">
         <el-col :span="3">
@@ -266,6 +251,25 @@ export default {
   mounted() {
   },
   methods: {
+    push(paperId) {
+      this.$router.push({ path: '/detail', query: { id: paperId } });
+    },
+    openIt(paper) {
+      this.citeDialogVisible = true;
+      this.standards[0].content = "[1]";
+      let i;
+      for (i = 0; i < paper.authors.length; i++)
+        this.standards[0].content += paper.authors[i].name
+      this.standards[0].content = this.standards[0].content + ". " + paper.title + "[J]. " + "," + paper.time + ".";
+      this.standards[1].content = "[1]";
+      for (i = 0; i < paper.authors.length; i++)
+        this.standards[1].content += paper.authors[i].name
+      this.standards[1].content = this.standards[1].content + '. +\"' + paper.title + '.\"' + "."
+      this.standards[2].content = "[1]";
+      for (i = 0; i < paper.authors.length; i++)
+        this.standards[2].content += paper.authors[i].name
+      this.standards[2].content = this.standards[2].content + '. (' + paper.time + '). ' + paper.title + '. '
+    },
     show() {
       console.log("paper页面的papers", this.$store.state.searched_paper);
     },

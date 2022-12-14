@@ -1,7 +1,7 @@
 <template>
     <div>
-      <navi></navi>
-      <div v-if="searched == false">
+        <navi></navi>
+        <div v-if="searched == false">
             <h1 style="margin-top: 200px;">学者检索</h1>
             <div>
                 <div class="search" id="searchBox" :style="colorVar" @mouseout="changeColor" @mouseleave="changeColor2">
@@ -77,8 +77,7 @@ import search from '@/components/searchForScholar.vue'
 import Navi from "@/components/navi";
 export default {
     components: {
-      Navi,
-        ScholarCard, search
+        ScholarCard, search, Navi
     },
     data() {
         return {
