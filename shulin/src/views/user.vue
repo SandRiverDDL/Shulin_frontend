@@ -9,11 +9,11 @@
                  id="header-upload-btn" >
           <img alt="此处应为图片" :src='this.$store.state.url' class="user-header-com" @click="upload">
         </div>
-        <div class="mid-part">
-          <div class="title">用户名:</div>
-          <div class="title">邮箱地址:</div>
-          <div class="title">认证情况:</div>
-        </div>
+<!--        <div class="mid-part">-->
+<!--          <div class="title">用户名:</div>-->
+<!--          <div class="title">邮箱地址:</div>-->
+<!--          <div class="title">认证情况:</div>-->
+<!--        </div>-->
         <div class="right-part" >
           <div class="text">
             {{this.$store.state.username}}

@@ -207,7 +207,7 @@ export default {
               this.$store.state.state = res.data.data.state;
               this.$store.state.is_superuser = res.data.data.is_superuser;
               this.$store.state.email = res.data.data.email;
-              this.$store.state.username = res.data.data.user_name;
+              this.$store.state.username = res.data.data.username;
               break;
             default:
               this.$message.error("获取用户信息失败！")

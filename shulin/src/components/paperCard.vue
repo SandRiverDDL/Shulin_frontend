@@ -38,7 +38,11 @@
     <!--      <span @click="show">555555</span>-->
     <div class="box" v-for="paper in this.$store.state.searched_paper">
       <div class="title"><span @click="push(paper.id)">{{ paper.title }}</span></div>
-      <div class="author">{{ paper.author }}</div>
+      <div class="author">
+        <span v-for="author in paper.authors">
+          <span class="one_author">{{ author.name }}</span>,&nbsp;
+        </span>
+      </div>
       <div style="display: inline-block; width: 20%;"></div>
       <div class="periodical">{{ paper.periodical }}</div>
       <div class="time">{{ paper.year }}</div>
@@ -46,7 +50,6 @@
         <img src="../assets/icon/引用 copy.svg" />
         <span @mouseover="changeIcon" @mouseleave="changeIcon" @click="openIt(paper)">引用</span>
       </div>
-      <el-divider></el-divider>
     </div>
     <el-dialog title="引用" :visible.sync="citeDialogVisible" width="65%" center>
       <el-row v-for="(item, index) in standards">
